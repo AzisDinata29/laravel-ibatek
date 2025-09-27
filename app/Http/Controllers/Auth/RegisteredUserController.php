@@ -36,6 +36,7 @@ class RegisteredUserController extends Controller
             'prodi' => ['required', 'string', 'max:255'],
             'angkatan' => ['required', 'integer', 'min:1900', 'max:'.(date('Y') + 10)],
             'nomor_telpon' => ['required', 'string', 'max:255'],
+            'jenis_kelamin' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'profile_photo' => ['nullable', 'image', 'max:2048'], // max 2MB
@@ -53,10 +54,11 @@ class RegisteredUserController extends Controller
             'prodi' => $request->prodi,
             'angkatan' => $request->angkatan,
             'nomor_telpon' => $request->nomor_telpon,
+            'jenis_kelamin' => $request->jenis_kelamin,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'profile_photo' => $profilePhotoPath,
-            'role' => 'client',
+            'role' => 'user',
         ]);
 
         event(new Registered($user));

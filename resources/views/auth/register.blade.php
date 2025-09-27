@@ -214,6 +214,21 @@
                         <p class="text-red-500 text-xs italic mt-2">{{ $errors->first('nomor_telpon') }}</p>
                     @endif
                 </div>
+                <!-- Jenis Kelamin -->
+                <div class="mb-4">
+                    <label for="jenis_kelamin" class="block text-gray-700 text-sm font-bold mb-2">
+                        <i class="fas fa-venus-mars text-orange-500 mr-1"></i> Jenis Kelamin
+                    </label>
+                    <select id="jenis_kelamin" name="jenis_kelamin" required
+                        class="input-focus shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Pilih Jenis Kelamin</option>
+                        <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                        <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                    </select>
+                    @if ($errors->has('jenis_kelamin'))
+                        <p class="text-red-500 text-xs italic mt-2">{{ $errors->first('jenis_kelamin') }}</p>
+                    @endif
+                </div>
 
                 <!-- Email Address -->
                 <div class="mb-4">
