@@ -11,7 +11,7 @@ class UserController extends Controller
 {
    public function index()
     {
-        $users = User::all();
+        $users = User::where('role', 'user')->get();
         return view('user', compact('users'));
     }
 
@@ -26,7 +26,7 @@ class UserController extends Controller
             'nomor_telpon' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'profile_photo' => 'nullable|image|max:2048', // max 2MB
+            'profile_photo' => 'nullable|image|max:2048',
             'role' => 'required|string|in:user,admin,client',
         ]);
 
@@ -64,14 +64,10 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        
         $user = User::findOrFail($id);
-
-        // Convert empty password to null to pass nullable validation
         if ($request->has('password') && $request->password === '') {
             $request->merge(['password' => null]);
         }
-
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'npm' => 'required|string|max:255|unique:users,npm,' . $id,
@@ -81,14 +77,12 @@ class UserController extends Controller
             'nomor_telpon' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
-            'profile_photo' => 'nullable|image|max:2048', // max 2MB
+            'profile_photo' => 'nullable|image|max:2048',
             'role' => 'required|string|in:user,admin,client',
         ]);
-
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
         $user->name = $request->name;
         $user->npm = $request->npm;
         $user->fakultas = $request->fakultas;
@@ -102,8 +96,7 @@ class UserController extends Controller
             $profilePhotoPath = $request->file('profile_photo')->store('profile_photos', 'public');
             $user->profile_photo = $profilePhotoPath;
         }
-
-        if ($request->password) {
+        if ($request->has('password')) {
             $user->password = Hash::make($request->password);
         }
         $user->save();
