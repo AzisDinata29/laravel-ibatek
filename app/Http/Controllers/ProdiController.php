@@ -11,22 +11,27 @@ class ProdiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index(Request $request)
     {
-        // Mengambil semua data prodi dari database
-        $prodis = Prodi::with('fakultas')->get();
+        $query = Prodi::with('fakultas');
+
+        
+        if ($request->filled('fakultas')) {
+            $query->whereHas('fakultas', function($q) use ($request) {
+                $q->where('name', $request->fakultas);
+            });
+        }
+
+        $prodis = $query->get();
+
         return view('akademik.prodi.index', compact('prodis'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $fakultas = Fakultas::all();
         return view('akademik.prodi.create', compact('fakultas'));
     }
-
     /**
      * Store a newly created resource in storage.
      */
