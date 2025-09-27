@@ -5,12 +5,12 @@
 <div class="container-fluid py-4">
     <div class="card">
         <div class="card-body">
-            <h2 class="h4 text-dark">Edit tipe</h2>
+            <h2 class="h4 text-dark">Edit Aktivitas Mahasiswa</h2>
             <form action="{{ route('tipe.update', $tipe) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
-                    <label for="name" class="form-label">Nama tipe</label>
+                    <label for="name" class="form-label">Nama Aktivitas Mahasiswa</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ $tipe->name }}" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Perbarui</button>

@@ -7,13 +7,13 @@
 <div class="container-fluid py-4">
         <div class="card">
             <div class="card-body">
-                <h2 class="h4 text-dark">Tambah tipe Baru</h2>
+                <h2 class="h4 text-dark">Tambah Aktivitas Mahasiswa Baru</h2>
 
                 <form action="{{ route('tipe.store') }}" method="POST">
                     @csrf
                     
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nama tipe</label>
+                        <label for="name" class="form-label">Nama Aktivitas Mahasiswa</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
 
