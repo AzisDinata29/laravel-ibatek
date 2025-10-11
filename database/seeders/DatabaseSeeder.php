@@ -14,18 +14,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = [
-            [
-                'npm'   => '22312056',
-                'role'  => 'user',
-                'name'  => 'Azis Dinata',
-                'email' => 'azis_dinata@teknokrat.ac.id',
-            ],
+        $admins = [
             [
                 'npm'   => 'admin',
                 'role'  => 'admin',
                 'name'  => 'admin',
+                'nomor_telpon'  => '085783390072',
                 'email' => 'admin@teknokrat.ac.id',
+            ],
+        ];
+
+        foreach ($admins as $admin) {
+            User::factory()->create($admin);
+        }
+
+        $users = [
+            [
+                'npm'   => '22312056',
+                'fakultas'  => '1',
+                'prodi'  => '2',
+                'angkatan'  => '2023',
+                'nomor_telpon'  => '085783390072',
+                'role'  => 'user',
+                'name'  => 'Azis Dinata',
+                'email' => 'azis_dinata@teknokrat.ac.id',
             ],
         ];
 

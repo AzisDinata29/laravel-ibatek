@@ -30,7 +30,6 @@ class User extends Authenticatable
         'role',
         'jenis_kelamin',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -52,5 +51,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function fakultas_detail()
+    {
+        return $this->belongsTo(Fakultas::class, 'fakultas', 'id');
+    }
+
+    public function prodi_detail()
+    {
+        return $this->belongsTo(Prodi::class, 'prodi', 'id');
     }
 }

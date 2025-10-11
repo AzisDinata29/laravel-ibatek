@@ -6,13 +6,19 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Fakultas;
+use App\Models\Prodi;
 
 class UserController extends Controller
 {
-   public function index()
+    public function index()
     {
-        $users = User::where('role', 'user')->get();
-        return view('user', compact('users'));
+        $users = User::with(['fakultas_detail', 'prodi_detail'])
+            ->where('role', 'user')->get();
+
+        $fakultas = Fakultas::orderBy('name')->get(['id', 'name']);
+
+        return view('pengguna.user.data', compact('users', 'fakultas'));
     }
 
     public function store(Request $request)
@@ -27,7 +33,6 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'profile_photo' => 'nullable|image|max:2048',
-            'role' => 'required|string|in:user,admin,client',
         ]);
 
         if ($validator->fails()) {
@@ -49,7 +54,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'profile_photo' => $profilePhotoPath,
-            'role' => $request->role,
+            'role' => 'user',
         ]);
 
         return response()->json(['success' => 'User created successfully.', 'user' => $user]);
@@ -57,8 +62,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-       
-        $user = User::findOrFail($id);
+        $user = User::with(['fakultas_detail', 'prodi_detail'])->findOrFail($id);
         return response()->json($user);
     }
 
@@ -78,7 +82,6 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
             'profile_photo' => 'nullable|image|max:2048',
-            'role' => 'required|string|in:user,admin,client',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -90,7 +93,7 @@ class UserController extends Controller
         $user->angkatan = $request->angkatan;
         $user->nomor_telpon = $request->nomor_telpon;
         $user->email = $request->email;
-        $user->role = $request->role;
+        $user->role = 'user';
 
         if ($request->hasFile('profile_photo')) {
             $profilePhotoPath = $request->file('profile_photo')->store('profile_photos', 'public');
@@ -106,7 +109,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-       
+
         $user = User::findOrFail($id);
         $user->delete();
 
