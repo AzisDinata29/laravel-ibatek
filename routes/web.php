@@ -10,22 +10,17 @@ use App\Http\Controllers\LombaController;
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\UkmController;
-use App\Http\Controllers\KegiatanController;
-use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\TipeAktifitasMahasiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AktifitasMahasiswaController;
 use App\Http\Controllers\UserAktifitasMahasiswaController;
+use App\Http\Controllers\VerifikasiAktifitasMahasiswaController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi');
-
-Route::get('prodi/by-fakultas/{id}', [ProdiController::class, 'byFakultas'])
-    ->name('prodi.byFakultas');
-
+Route::get('prodi/by-fakultas/{id}', [ProdiController::class, 'byFakultas'])->name('prodi.byFakultas');
 
 
 Route::middleware('auth')->group(function () {
@@ -35,8 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('tipe', TipeAktifitasMahasiswaController::class)->names('tipe');
-    Route::resource('user-aktifitas-mahasiswa', UserAktifitasMahasiswaController::class)->names('user-aktifitas-mahasiswa');
+
     Route::resource('fakultas', FakultasController::class)->names([
         'index' => 'fakultas',
         'create' => 'fakultas.create',
@@ -87,6 +81,11 @@ Route::middleware('auth')->group(function () {
         'update' => 'organisasi.update',
         'destroy' => 'organisasi.destroy'
     ]);
+
+    Route::resource('tipe', TipeAktifitasMahasiswaController::class)->names('tipe');
+    Route::resource('verifikasi-aktifitas-mahasiswa', VerifikasiAktifitasMahasiswaController::class)->names('verifikasi-aktifitas-mahasiswa');
+    Route::resource('aktifitas-mahasiswa', AktifitasMahasiswaController::class)->names('aktifitas-mahasiswa');
+    Route::resource('user-aktifitas-mahasiswa', UserAktifitasMahasiswaController::class)->names('user-aktifitas-mahasiswa');
 });
 
 

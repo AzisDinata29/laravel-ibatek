@@ -45,6 +45,27 @@ class DatabaseSeeder extends Seeder
             User::factory()->create($user);
         }
 
+        DB::table('aktifitas_mahasiswas')->insert([
+            [
+                'id' => 1,
+                'user_id' => 2,
+                'tipe_aktifitas_mahasiswa_id' => 1,
+                'label' => 'Himpunan Mahasiswa S1 Informatika, Universitas Teknokrat Indonesia',
+                'label_detail' => 'Deskripsi',
+                'tanggal_mulai' => '2025-10-01',
+                'tanggal_selesai' => '2025-10-18',
+                'semester' => '1',
+                'durasi' => '180',
+                'file' => 'aktifitas/dZgmuAMg8SbkhoO9ByXE7Br3nDSnF2iIfMlh7ZYD.png',
+                'keterangan' => 'Keterangan',
+                'status' => 'Menunggu Validasi',
+                'validasi_user_id' => null,
+                'keterangan_validasi' => null,
+                'created_at' => '2025-10-11 18:10:53',
+                'updated_at' => '2025-10-11 18:10:53',
+            ],
+        ]);
+
         $this->call([
             TipeAktifitasMahasiswaSeeder::class,
             FakultasSeeder::class,

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Aktifitas Mahasiswa Management')
-@section('page-heading', 'Aktifitas Mahasiswa Management')
+@section('title', 'Verifikasi Aktifitas Mahasiswa')
+@section('page-heading', 'Verifikasi Aktifitas Mahasiswa')
 
 @section('content')
     <div class="row justify-content-center">
@@ -9,10 +9,7 @@
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-header bg-white">
                     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
-                        <h4 class="mb-0 fw-bold text-primary">Aktifitas Mahasiswa</h4>
-                        <a href="{{ route('user-aktifitas-mahasiswa.create') }}" class="btn btn-primary rounded-pill">
-                            <i class="bi bi-plus-lg me-1"></i> Tambah Aktifitas
-                        </a>
+                        <h4 class="mb-0 fw-bold text-primary">Verifikasi Aktifitas Mahasiswa</h4>
                     </div>
                 </div>
                 <div class="card-body">
@@ -29,7 +26,7 @@
                         </div>
                     @endif
                     <div class="rounded-4 border bg-light p-3 mb-4 shadow-sm">
-                        <form method="GET" action="{{ route('user-aktifitas-mahasiswa.index') }}" class="row g-3">
+                        <form method="GET" action="{{ route('verifikasi-aktifitas-mahasiswa.index') }}" class="row g-3">
                             <div class="col-12 col-md-3">
                                 <label class="form-label mb-1">Semester</label>
                                 <select name="semester" id="filterSemester" class="form-select form-select-sm rounded-pill">
@@ -42,17 +39,6 @@
                                     @endfor
                                 </select>
                             </div>
-                            <div class="col-12 col-md-3">
-                                <label class="form-label mb-1">Status</label>
-                                <select name="status" id="filterStatus" class="form-select form-select-sm rounded-pill">
-                                    <option value="">Semua</option>
-                                    <option {{ request('status') == 'Menunggu Validasi' ? 'selected' : '' }}>Menunggu
-                                        Validasi</option>
-                                    <option {{ request('status') == 'Terima' ? 'selected' : '' }}>Terima</option>
-                                    <option {{ request('status') == 'Tidak Diterima' ? 'selected' : '' }}>Tidak Diterima
-                                    </option>
-                                </select>
-                            </div>
                             <div class="col-12 col-md-4">
                                 <label class="form-label mb-1">Tipe</label>
                                 <select name="tipe" id="filterTipe" class="form-select form-select-sm rounded-pill">
@@ -61,6 +47,18 @@
                                         <option value="{{ $t->name }}"
                                             {{ request('tipe') == $t->name ? 'selected' : '' }}>
                                             {{ $t->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label class="form-label mb-1">Angkatan</label>
+                                <select name="angkatan" id="filterAngkatan" class="form-select form-select-sm rounded-pill">
+                                    <option value="">Semua</option>
+                                    @foreach ($angkatanList as $angkatan)
+                                        <option value="{{ $angkatan }}"
+                                            {{ request('angkatan') == $angkatan ? 'selected' : '' }}>
+                                            {{ $angkatan }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -79,9 +77,8 @@
                                 <tr>
                                     <th style="width:48px">#</th>
                                     <th style="width:70px">Aksi</th>
-                                    <th>Status</th>
+                                    <th>Keterangan</th>
                                     <th>Kegiatan</th>
-                                    <th>Durasi</th>
                                     <th>Semester</th>
                                     <th>Periode</th>
                                     <th>File</th>
@@ -93,66 +90,49 @@
                                         <td class="text-muted text-center">{{ $i + 1 }}</td>
                                         <td class="text-center">
                                             <div class="d-flex flex-column align-items-stretch gap-2">
-                                                <a href="#"
-                                                    class="btn btn-sm btn-outline-info rounded-pill d-flex align-items-center justify-content-center gap-1 w-100 btn-detail"
-                                                    data-bs-toggle="modal" data-bs-target="#detailModal"
-                                                    data-tipe="{{ $row->tipe?->name }}" data-status="{{ $row->status }}"
-                                                    data-label="{{ $row->label }}"
-                                                    data-label-detail="{{ $row->label_detail }}"
-                                                    data-keterangan="{{ $row->keterangan }}"
-                                                    data-semester="{{ $row->semester }}" data-durasi="{{ $row->durasi }}"
-                                                    data-periode="{{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }} - {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}"
-                                                    data-file="{{ $row->file ? asset('storage/' . $row->file) : '' }}"
-                                                    data-label-title="{{ $row->tipe?->label ?? 'Judul Kegiatan' }}"
-                                                    data-detail-title="{{ $row->tipe?->label_detail ?? 'Detail Aktivitas' }}">
-                                                    <i class="bi bi-eye"></i>
-                                                    <span>Detail</span>
-                                                </a>
-                                                @if ($row->status !== 'Terima')
-                                                    <a href="{{ route('user-aktifitas-mahasiswa.edit', $row->id) }}"
-                                                        class="btn btn-sm btn-outline-warning rounded-pill d-flex align-items-center justify-content-center gap-1 w-100">
-                                                        <i class="bi bi-pencil"></i>
-                                                        <span>Edit</span>
-                                                    </a>
-                                                    <form id="form-delete-{{ $row->id }}"
-                                                        action="{{ route('user-aktifitas-mahasiswa.destroy', $row->id) }}"
-                                                        method="POST" class="d-inline w-100">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-outline-danger rounded-pill d-flex align-items-center justify-content-center gap-1 w-100 btn-delete"
-                                                            data-id="{{ $row->id }}">
-                                                            <i class="bi bi-trash"></i>
-                                                            <span>Hapus</span>
-                                                        </button>
-                                                    </form>
-                                                @else
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-outline-secondary rounded-pill d-flex align-items-center justify-content-center gap-1 w-100"
-                                                        disabled>
-                                                        <i class="bi bi-lock"></i>
-                                                        <span>Terkunci</span>
-                                                    </button>
-                                                @endif
+                                                <button
+                                                    class="btn btn-sm btn-outline-warning rounded-pill d-flex align-items-center justify-content-center gap-1 w-100 btnEditAktifitas"
+                                                    data-id="{{ $row->id }}">
+                                                    <i class="bi bi-pencil"></i>
+                                                    <span>Verifikasi</span>
+                                                </button>
                                             </div>
                                         </td>
-                                        <td class="text-center align-middle">
-                                            @php
-                                                $badge = match ($row->status) {
-                                                    'Terima' => 'success',
-                                                    'Tidak Diterima' => 'danger',
-                                                    default => 'warning',
-                                                };
-                                            @endphp
-                                            <span
-                                                class="badge bg-{{ $badge }} px-2 py-1 rounded-pill fw-semibold small">
-                                                {{ $row->status }}
-                                            </span>
-                                            @if ($row->status == 'Tidak Diterima')
-                                                <div class="text-muted small mt-1">
-                                                    {{ $row->keterangan_validasi }}
+                                        <td class="align-middle text-start">
+                                            <div class="d-flex flex-column gap-1">
+                                                <div class="fw-bold text-dark">
+                                                    <span class="text-primary">{{ $row->user->name }}</span>
                                                 </div>
-                                            @endif
+                                                <div class="text-muted small">
+                                                    NPM: <span class="fw-semibold">{{ $row->user->npm }}</span>
+                                                </div>
+                                                <div class="text-muted small">
+                                                    Fakultas: <span
+                                                        class="fw-semibold">{{ $row->user->fakultas_detail->name ?? '-' }}</span>
+                                                </div>
+                                                <div class="text-muted small">
+                                                    Program Studi: <span
+                                                        class="fw-semibold">{{ $row->user->prodi_detail->name ?? '-' }}</span>
+                                                </div>
+                                                <div class="mt-1">
+                                                    @if ($row->status == 'Terima')
+                                                        <span
+                                                            class="badge bg-success px-3 py-1 rounded-pill fw-semibold small">
+                                                            {{ $row->status }}
+                                                        </span>
+                                                    @elseif ($row->status == 'Tidak Diterima')
+                                                        <span
+                                                            class="badge bg-danger px-3 py-1 rounded-pill fw-semibold small">
+                                                            {{ $row->status }}
+                                                        </span>
+                                                    @else
+                                                        <span
+                                                            class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-semibold small">
+                                                            {{ $row->status }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </td>
                                         <td style="max-width:380px;">
                                             <div class="mb-1">
@@ -172,17 +152,6 @@
                                                     <span>{{ $row->label_detail }}</span>
                                                 </div>
                                             @endif
-                                            @if ($row->keterangan)
-                                                <div class="text-muted small fst-italic mt-1 d-flex align-items-start">
-                                                    <i class="bi bi-chat-left-text me-1"></i>
-                                                    <span>"{{ \Illuminate\Support\Str::limit($row->keterangan, 80) }}"</span>
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge bg-light text-dark px-2 py-1 rounded-pill">
-                                                {{ $row->durasi ?? '-' }}
-                                            </span>
                                         </td>
                                         <td class="text-center">
                                             <span
@@ -229,103 +198,48 @@
         </div>
     </div>
 
-    <div class="modal fade" id="detailModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="detailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
-                <div class="modal-header p-4">
-                    <div>
-                        <h5 class="modal-title fw-bold" id="detailModalLabel">
-                            <i class="bi bi-info-circle me-2"></i>Detail Aktivitas Mahasiswa
-                        </h5>
-                    </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+    <div class="modal fade" id="modalEditAktifitas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="modalEditLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title" id="modalEditLabel">Verifikasi Aktifitas Mahasiswa</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-
-                <div class="modal-body p-4 bg-light">
-                    <div class="mb-4">
-                        <h6
-                            class="fw-bold text-uppercase text-primary mb-3 d-flex align-items-center gap-2 border-bottom pb-2">
-                            <i class="bi bi-mortarboard-fill"></i> Informasi Umum
-                        </h6>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <p class="text-muted mb-1 small">Tipe Aktivitas</p>
-                                <div class="fw-semibold fs-6" id="modalTipe">-</div>
-                            </div>
-                            <div class="col-md-6">
-                                <p class="text-muted mb-1 small">Status</p>
-                                <span id="modalStatus" class="badge rounded-pill px-3 py-2 shadow-sm">-</span>
-                            </div>
-                            <div class="col-md-12">
-                                <p class="text-muted mb-1 small" id="modalLabelTitle">Judul Kegiatan</p>
-                                <div class="fw-semibold fs-6 text-dark" id="modalLabel">-</div>
-                            </div>
-                        </div>
+                <div class="modal-body" id="editAktifitasContent">
+                    <div class="text-center py-5 text-muted">
+                        <div class="spinner-border text-primary mb-2" role="status"></div>
+                        <p>Memuat data...</p>
                     </div>
-                    <hr>
-                    <div class="mb-4">
-                        <h6
-                            class="fw-bold text-uppercase text-primary mb-3 d-flex align-items-center gap-2 border-bottom pb-2">
-                            <i class="bi bi-journal-text"></i> Detail Aktivitas
-                        </h6>
-                        <div class="row g-3">
-                            <div class="col-md-12">
-                                <p class="text-muted mb-1 small" id="modalDetailTitle">Detail Aktivitas</p>
-                                <p id="modalDetail" class="text-dark">-</p>
-                            </div>
-                            <div class="col-md-12">
-                                <p class="text-muted mb-1 small">Keterangan</p>
-                                <p id="modalKeterangan" class="fst-italic text-muted">-</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="mb-3">
-                        <h6
-                            class="fw-bold text-uppercase text-primary mb-3 d-flex align-items-center gap-2 border-bottom pb-2">
-                            <i class="bi bi-calendar-week"></i> Periode & Informasi Tambahan
-                        </h6>
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <p class="text-muted mb-1 small">Semester</p>
-                                <h6 id="modalSemester" class="text-dark">-</h6>
-                            </div>
-                            <div class="col-md-4">
-                                <p class="text-muted mb-1 small">Durasi</p>
-                                <h6 id="modalDurasi" class="text-dark">-</h6>
-                            </div>
-                            <div class="col-md-4">
-                                <p class="text-muted mb-1 small">Periode</p>
-                                <h6 id="modalPeriode" class="text-dark">-</h6>
-                            </div>
-                            <div class="col-md-12 mt-2">
-                                <p class="text-muted mb-1 small">File Pendukung</p>
-                                <div class="d-flex align-items-center gap-2">
-                                    <a id="modalFile" href="#" target="_blank"
-                                        class="btn btn-success btn-sm rounded-pill px-4 d-none shadow-sm">
-                                        <i class="bi bi-paperclip"></i> Lihat File
-                                    </a>
-                                    <span id="modalNoFile" class="text-muted small">Tidak ada file yang diunggah.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer bg-white d-flex justify-content-between align-items-center px-4 py-3">
-                    <small class="text-muted"></small>
-                    <button type="button" class="btn btn-outline-primary rounded-pill px-4 d-flex align-items-center"
-                        data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-1"></i> Tutup
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                $(document).on('click', '.btnEditAktifitas', function() {
+                    const id = $(this).data('id');
+                    const modalBody = $('#editAktifitasContent');
+                    modalBody.html(`<div class="text-center py-5 text-muted">
+                        <div class="spinner-border text-primary mb-2" role="status"></div>
+                        <p>Memuat data...</p>
+                    </div>`);
 
+                    $('#modalEditAktifitas').modal('show');
+
+                    $.get("{{ url('verifikasi-aktifitas-mahasiswa') }}/" + id + "/edit", function(data) {
+                        modalBody.html(data);
+                    }).fail(function() {
+                        modalBody.html(
+                            '<div class="alert alert-danger text-center">Gagal memuat data. Coba lagi.</div>'
+                        );
+                    });
+                });
+            });
+        </script>
+    @endpush
 
     @push('scripts')
         <script>
