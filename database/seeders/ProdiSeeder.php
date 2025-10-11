@@ -19,7 +19,6 @@ class ProdiSeeder extends Seeder
             ['name' => 'Teknik Komputer', 'fakultas_id' => 1],
             ['name' => 'Teknik Elektro', 'fakultas_id' => 1],
             ['name' => 'Teknik Sipil', 'fakultas_id' => 1],
-            ['name' => 'Teknik Komputer', 'fakultas_id' => 1],
             ['name' => 'Sistem Informasi Akuntansi', 'fakultas_id' => 1],
             ['name' => 'Sastra Inggris', 'fakultas_id' => 2],
             ['name' => 'Pendidikan Bahasa Inggris', 'fakultas_id' => 2],

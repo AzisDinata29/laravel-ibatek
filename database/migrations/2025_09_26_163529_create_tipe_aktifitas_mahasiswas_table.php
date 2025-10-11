@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('tipe_aktifitas_mahasiswas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('label')->nullable();
+            $table->string('label_detail')->nullable();
             $table->string('slug')->unique();
             $table->timestamps();
         });

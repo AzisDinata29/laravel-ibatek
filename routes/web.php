@@ -13,6 +13,9 @@ use App\Http\Controllers\UkmController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\TipeAktifitasMahasiswaController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserAktifitasMahasiswaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,9 +31,51 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('tipe', TipeAktifitasMahasiswaController::class)->names('tipe');
+    Route::resource('user-aktifitas-mahasiswa', UserAktifitasMahasiswaController::class)->names('user-aktifitas-mahasiswa');
+    Route::resource('fakultas', FakultasController::class)->names([
+        'index' => 'fakultas',
+        'create' => 'fakultas.create',
+        'store' => 'fakultas.store',
+        'show' => 'fakultas.show',
+        'edit' => 'fakultas.edit',
+        'update' => 'fakultas.update',
+        'destroy' => 'fakultas.destroy'
+    ])->parameters([
+        'fakultas' => 'fakultas',
+    ]);
+    Route::get('prodi/by-fakultas/{id}', [ProdiController::class, 'byFakultas'])
+        ->name('prodi.byFakultas');
+    Route::resource('prodi', ProdiController::class)->names([
+        'index' => 'prodi',
+        'create' => 'prodi.create',
+        'store' => 'prodi.store',
+        'show' => 'prodi.show',
+        'edit' => 'prodi.edit',
+        'update' => 'prodi.update',
+        'destroy' => 'prodi.destroy',
+    ]);
+    Route::resource('users', UserController::class)->middleware('auth')->names([
+        'index' => 'user',
+        'create' => 'user.create',
+        'store' => 'user.store',
+        'show' => 'user.show',
+        'edit' => 'user.edit',
+        'update' => 'user.update',
+        'destroy' => 'user.destroy'
+    ]);
+
+    Route::resource('admins', AdminController::class)->middleware('auth')->names([
+        'index' => 'admin',
+        'create' => 'admin.create',
+        'store' => 'admin.store',
+        'show' => 'admin.show',
+        'edit' => 'admin.edit',
+        'update' => 'admin.update',
+        'destroy' => 'admin.destroy'
+    ]);
 });
 
-Route::resource('tipe', TipeAktifitasMahasiswaController::class)->names('tipe');
 
 Route::resource('organisasi', OrganizationController::class)->names([
     'index' => 'organisasi',
@@ -92,30 +137,7 @@ Route::resource('ukm', UkmController::class)->names([
     'destroy' => 'ukm.destroy',
 ]);
 
-Route::resource('fakultas', FakultasController::class)->names([
-    'index' => 'fakultas',
-    'create' => 'fakultas.create',
-    'store' => 'fakultas.store',
-    'show' => 'fakultas.show',
-    'edit' => 'fakultas.edit',
-    'update' => 'fakultas.update',
-    'destroy' => 'fakultas.destroy'
-])->parameters([
-    'fakultas' => 'fakultas',
-]);
 
-Route::get('prodi/by-fakultas/{id}', [ProdiController::class, 'byFakultas'])
-    ->name('prodi.byFakultas');
-
-Route::resource('prodi', ProdiController::class)->names([
-    'index' => 'prodi',
-    'create' => 'prodi.create',
-    'store' => 'prodi.store',
-    'show' => 'prodi.show',
-    'edit' => 'prodi.edit',
-    'update' => 'prodi.update',
-    'destroy' => 'prodi.destroy',
-]);
 
 Route::get('/cetak', [\App\Http\Controllers\RelatedRecordController::class, 'index'])->name('cetak');
 
@@ -135,24 +157,5 @@ Route::get('/kesimpulan', function () {
     return view('kesimpulan');
 })->name('kesimpulan');
 
-Route::resource('users', \App\Http\Controllers\UserController::class)->middleware('auth')->names([
-    'index' => 'user',
-    'create' => 'user.create',
-    'store' => 'user.store',
-    'show' => 'user.show',
-    'edit' => 'user.edit',
-    'update' => 'user.update',
-    'destroy' => 'user.destroy'
-]);
-
-Route::resource('admins', \App\Http\Controllers\AdminController::class)->middleware('auth')->names([
-    'index' => 'admin',
-    'create' => 'admin.create',
-    'store' => 'admin.store',
-    'show' => 'admin.show',
-    'edit' => 'admin.edit',
-    'update' => 'admin.update',
-    'destroy' => 'admin.destroy'
-]);
 
 require __DIR__ . '/auth.php';

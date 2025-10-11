@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="{{ asset('build/assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('build/assets/css/app.css') }}">
     <link rel="shortcut icon" href="{{ asset('build/assets/images/logo/ibtk.png') }}" type="image/x-icon">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
     @stack('styles')
 </head>
@@ -38,15 +37,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('build/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('build/assets/js/bootstrap.bundle.min.js') }}"></script>
-
     <script src="{{ asset('build/assets/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
     @stack('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const deleteForms = document.querySelectorAll('.delete-form');
-
             deleteForms.forEach(form => {
                 form.addEventListener('submit', function(event) {
                     event.preventDefault();
