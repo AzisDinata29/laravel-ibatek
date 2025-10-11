@@ -23,11 +23,15 @@ Route::get('/', function () {
 
 Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('prodi/by-fakultas/{id}', [ProdiController::class, 'byFakultas'])
+    ->name('prodi.byFakultas');
+
+
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -44,8 +48,7 @@ Route::middleware('auth')->group(function () {
     ])->parameters([
         'fakultas' => 'fakultas',
     ]);
-    Route::get('prodi/by-fakultas/{id}', [ProdiController::class, 'byFakultas'])
-        ->name('prodi.byFakultas');
+
     Route::resource('prodi', ProdiController::class)->names([
         'index' => 'prodi',
         'create' => 'prodi.create',

@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             [
                 'npm'   => '22312056',
                 'fakultas'  => '1',
-                'prodi'  => '2',
+                'prodi'  => '1',
                 'angkatan'  => '2023',
                 'nomor_telpon'  => '085783390072',
                 'role'  => 'user',

@@ -14,6 +14,7 @@ class ProdiSeeder extends Seeder
     public function run(): void
     {
         $data = [
+            ['name' => 'Informatika', 'fakultas_id' => 1],
             ['name' => 'Sistem Informasi', 'fakultas_id' => 1],
             ['name' => 'Teknologi Informasi', 'fakultas_id' => 1],
             ['name' => 'Teknik Komputer', 'fakultas_id' => 1],

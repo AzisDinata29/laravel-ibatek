@@ -11,10 +11,10 @@
             <span>Aktifitas Mahasiswa</span>
         </a>
     </li>
-    <li class="sidebar-item {{ Route::currentRouteName() == 'cetak' ? 'active' : '' }}">
+    {{-- <li class="sidebar-item {{ Route::currentRouteName() == 'cetak' ? 'active' : '' }}">
         <a href="{{ route('cetak') }}" class='sidebar-link'>
             <i class="bi bi-map-fill"></i>
             <span>Cetak</span>
         </a>
-    </li>
+    </li> --}}
 @endif
