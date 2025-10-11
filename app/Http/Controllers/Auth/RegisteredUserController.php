@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\Fakultas;
+use App\Models\Prodi;
 
 class RegisteredUserController extends Controller
 {
@@ -19,7 +21,15 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $fakultas = Fakultas::orderBy('name')->get(['id', 'name']);
+        $prodis = collect();
+        if (old('fakultas_id')) {
+            $prodis = Prodi::where('fakultas_id', old('fakultas_id'))
+                ->orderBy('name')
+                ->get(['id', 'name']);
+        }
+
+        return view('auth.register', compact('fakultas', 'prodis'));
     }
 
     /**
@@ -31,13 +41,13 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'npm' => ['required', 'string', 'max:255', 'unique:'.User::class],
+            'npm' => ['required', 'string', 'max:255', 'unique:' . User::class],
             'fakultas' => ['required', 'string', 'max:255'],
             'prodi' => ['required', 'string', 'max:255'],
-            'angkatan' => ['required', 'integer', 'min:1900', 'max:'.(date('Y') + 10)],
+            'angkatan' => ['required', 'integer', 'min:1900', 'max:' . (date('Y') + 10)],
             'nomor_telpon' => ['required', 'string', 'max:255'],
             'jenis_kelamin' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'profile_photo' => ['nullable', 'image', 'max:2048'], // max 2MB
         ]);
@@ -65,6 +75,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('dashboard');
     }
 }

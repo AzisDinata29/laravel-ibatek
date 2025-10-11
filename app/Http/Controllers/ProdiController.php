@@ -11,13 +11,13 @@ class ProdiController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index(Request $request)
+    public function index(Request $request)
     {
         $query = Prodi::with('fakultas');
 
-        
+
         if ($request->filled('fakultas')) {
-            $query->whereHas('fakultas', function($q) use ($request) {
+            $query->whereHas('fakultas', function ($q) use ($request) {
                 $q->where('name', $request->fakultas);
             });
         }
@@ -31,6 +31,13 @@ class ProdiController extends Controller
     {
         $fakultas = Fakultas::all();
         return view('akademik.prodi.create', compact('fakultas'));
+    }
+
+    public function byFakultas($id)
+    {
+        return Prodi::where('fakultas_id', $id)
+            ->orderBy('name')
+            ->get(['id', 'name']);
     }
     /**
      * Store a newly created resource in storage.

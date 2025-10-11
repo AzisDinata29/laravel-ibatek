@@ -40,9 +40,9 @@ Route::resource('organisasi', OrganizationController::class)->names([
     'edit' => 'organisasi.edit',
     'update' => 'organisasi.update',
     'destroy' => 'organisasi.destroy'
-    ]);
+]);
 
-    Route::resource('kepanitiaan', KepaniitiaanController::class)->names([
+Route::resource('kepanitiaan', KepaniitiaanController::class)->names([
     'index' => 'kepanitiaan',
     'create' => 'kepanitiaan.create',
     'store' => 'kepanitiaan.store',
@@ -90,7 +90,7 @@ Route::resource('ukm', UkmController::class)->names([
     'edit' => 'ukm.edit',
     'update' => 'ukm.update',
     'destroy' => 'ukm.destroy',
-    ]);
+]);
 
 Route::resource('fakultas', FakultasController::class)->names([
     'index' => 'fakultas',
@@ -104,6 +104,9 @@ Route::resource('fakultas', FakultasController::class)->names([
     'fakultas' => 'fakultas',
 ]);
 
+Route::get('prodi/by-fakultas/{id}', [ProdiController::class, 'byFakultas'])
+    ->name('prodi.byFakultas');
+
 Route::resource('prodi', ProdiController::class)->names([
     'index' => 'prodi',
     'create' => 'prodi.create',
@@ -111,7 +114,7 @@ Route::resource('prodi', ProdiController::class)->names([
     'show' => 'prodi.show',
     'edit' => 'prodi.edit',
     'update' => 'prodi.update',
-    'destroy' => 'prodi.destroy'
+    'destroy' => 'prodi.destroy',
 ]);
 
 Route::get('/cetak', [\App\Http\Controllers\RelatedRecordController::class, 'index'])->name('cetak');
@@ -132,24 +135,24 @@ Route::get('/kesimpulan', function () {
     return view('kesimpulan');
 })->name('kesimpulan');
 
-    Route::resource('users', \App\Http\Controllers\UserController::class)->middleware('auth')->names([
-        'index' => 'user',
-        'create' => 'user.create',
-        'store' => 'user.store',
-        'show' => 'user.show',
-        'edit' => 'user.edit',
-        'update' => 'user.update',
-        'destroy' => 'user.destroy'
-    ]);
+Route::resource('users', \App\Http\Controllers\UserController::class)->middleware('auth')->names([
+    'index' => 'user',
+    'create' => 'user.create',
+    'store' => 'user.store',
+    'show' => 'user.show',
+    'edit' => 'user.edit',
+    'update' => 'user.update',
+    'destroy' => 'user.destroy'
+]);
 
-     Route::resource('admins', \App\Http\Controllers\AdminController::class)->middleware('auth')->names([
-        'index' => 'admin',
-        'create' => 'admin.create',
-        'store' => 'admin.store',
-        'show' => 'admin.show',
-        'edit' => 'admin.edit',
-        'update' => 'admin.update',
-        'destroy' => 'admin.destroy'
-    ]);
+Route::resource('admins', \App\Http\Controllers\AdminController::class)->middleware('auth')->names([
+    'index' => 'admin',
+    'create' => 'admin.create',
+    'store' => 'admin.store',
+    'show' => 'admin.show',
+    'edit' => 'admin.edit',
+    'update' => 'admin.update',
+    'destroy' => 'admin.destroy'
+]);
 
 require __DIR__ . '/auth.php';
