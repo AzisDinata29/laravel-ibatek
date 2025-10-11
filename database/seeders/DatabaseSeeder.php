@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             TipeAktifitasMahasiswaSeeder::class,
             FakultasSeeder::class,
             ProdiSeeder::class,
+            OrganisasiSeeder::class,
         ]);
     }
 }

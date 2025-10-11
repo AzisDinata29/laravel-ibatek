@@ -10,12 +10,12 @@ class OrganizationController extends Controller
     public function index()
     {
         $organizations = Organization::all();
-        return view('kegiatan.organisasi.index', compact('organizations'));
+        return view('master.organisasi.index', compact('organizations'));
     }
 
     public function create()
     {
-        return view('kegiatan.organisasi.create');
+        return view('master.organisasi.create');
     }
 
     public function store(Request $request)
@@ -31,7 +31,7 @@ class OrganizationController extends Controller
 
     public function edit(Organization $organisasi)
     {
-        return view('kegiatan.organisasi.edit', compact('organisasi'));
+        return view('master.organisasi.edit', compact('organisasi'));
     }
 
     public function update(Request $request, Organization $organisasi)

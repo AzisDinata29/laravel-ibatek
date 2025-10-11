@@ -21,7 +21,6 @@ class TipeAktifitasMahasiswaSeeder extends Seeder
             ['name' => 'Magang',      'label' => 'Nama Perusahaan', 'label_detail' => 'Posisi'],
             ['name' => 'Tridharma',   'label' => 'Judul', 'label_detail' => 'Nama Penelitian'],
             ['name' => 'Lomba',       'label' => 'Nama Lomba', 'label_detail' => 'Penyelenggara'],
-            ['name' => 'UKM',         'label' => 'Nama UKM', 'label_detail' => 'Deskcirpsi'],
         ];
 
         $now = Carbon::now();
@@ -38,11 +37,10 @@ class TipeAktifitasMahasiswaSeeder extends Seeder
             ];
         })->all();
 
-        // Upsert by unique 'slug' agar aman jika dijalankan berulang
         DB::table('tipe_aktifitas_mahasiswas')->upsert(
             $data,
-            ['slug'],                                // unique key
-            ['name', 'label', 'label_detail', 'updated_at'] // kolom yang di-update jika slug sudah ada
+            ['slug'],
+            ['name', 'label', 'label_detail', 'updated_at']
         );
     }
 }

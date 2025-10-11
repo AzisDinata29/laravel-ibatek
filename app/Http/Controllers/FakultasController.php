@@ -13,7 +13,7 @@ class FakultasController extends Controller
     public function index()
     {
         $fakultas = Fakultas::all();
-        return view('akademik.fakultas.index', compact('fakultas'));
+        return view('master.fakultas.index', compact('fakultas'));
     }
 
     /**
@@ -21,7 +21,7 @@ class FakultasController extends Controller
      */
     public function create()
     {
-        return view('akademik.fakultas.create');
+        return view('master.fakultas.create');
     }
 
     /**
@@ -51,7 +51,7 @@ class FakultasController extends Controller
      */
     public function edit(Fakultas $fakultas)
     {
-        return view('akademik.fakultas.edit', compact('fakultas'));
+        return view('master.fakultas.edit', compact('fakultas'));
     }
 
     /**

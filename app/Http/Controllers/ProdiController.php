@@ -24,13 +24,13 @@ class ProdiController extends Controller
 
         $prodis = $query->get();
 
-        return view('akademik.prodi.index', compact('prodis'));
+        return view('master.prodi.index', compact('prodis'));
     }
 
     public function create()
     {
         $fakultas = Fakultas::all();
-        return view('akademik.prodi.create', compact('fakultas'));
+        return view('master.prodi.create', compact('fakultas'));
     }
 
     public function byFakultas($id)
@@ -59,7 +59,7 @@ class ProdiController extends Controller
     public function edit(Prodi $prodi)
     {
         $fakultas = Fakultas::all();
-        return view('akademik.prodi.edit', compact('prodi', 'fakultas'));
+        return view('master.prodi.edit', compact('prodi', 'fakultas'));
     }
 
     /**

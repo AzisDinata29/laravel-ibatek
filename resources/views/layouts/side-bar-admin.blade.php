@@ -10,6 +10,7 @@
           $isAkademikActive =
               str_starts_with(Route::currentRouteName(), 'fakultas') ||
               str_starts_with(Route::currentRouteName(), 'prodi') ||
+              str_starts_with(Route::currentRouteName(), 'organisasi') ||
               str_starts_with(Route::currentRouteName(), 'tipe');
       @endphp
       <li class="sidebar-item has-sub {{ $isAkademikActive ? 'active' : '' }}">
@@ -26,6 +27,9 @@
               </li>
               <li class="submenu-item {{ str_starts_with(Route::currentRouteName(), 'tipe') ? 'active' : '' }}">
                   <a href="{{ route('tipe.index') }}">Tipe Aktifitas Mahasiswa</a>
+              </li>
+              <li class="submenu-item {{ str_starts_with(Route::currentRouteName(), 'organiasi') ? 'active' : '' }}">
+                  <a href="{{ route('organisasi') }}">Organisasi</a>
               </li>
           </ul>
       </li>

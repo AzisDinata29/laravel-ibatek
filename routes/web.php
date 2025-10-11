@@ -74,18 +74,20 @@ Route::middleware('auth')->group(function () {
         'update' => 'admin.update',
         'destroy' => 'admin.destroy'
     ]);
+
+    Route::resource('organisasi', OrganizationController::class)->names([
+        'index' => 'organisasi',
+        'create' => 'organisasi.create',
+        'store' => 'organisasi.store',
+        'show' => 'organisasi.show',
+        'edit' => 'organisasi.edit',
+        'update' => 'organisasi.update',
+        'destroy' => 'organisasi.destroy'
+    ]);
 });
 
 
-Route::resource('organisasi', OrganizationController::class)->names([
-    'index' => 'organisasi',
-    'create' => 'organisasi.create',
-    'store' => 'organisasi.store',
-    'show' => 'organisasi.show',
-    'edit' => 'organisasi.edit',
-    'update' => 'organisasi.update',
-    'destroy' => 'organisasi.destroy'
-]);
+
 
 Route::resource('kepanitiaan', KepaniitiaanController::class)->names([
     'index' => 'kepanitiaan',

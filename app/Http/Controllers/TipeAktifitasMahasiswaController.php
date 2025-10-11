@@ -13,7 +13,7 @@ class TipeAktifitasMahasiswaController extends Controller
     public function index()
     {
         $tipe = TipeAktifitasMahasiswa::all();
-        return view('akademik.tipe.index', compact('tipe'));
+        return view('master.tipe.index', compact('tipe'));
     }
 
     /**
@@ -21,7 +21,7 @@ class TipeAktifitasMahasiswaController extends Controller
      */
     public function create()
     {
-        return view('akademik.tipe.create');
+        return view('master.tipe.create');
     }
 
     /**
@@ -51,7 +51,7 @@ class TipeAktifitasMahasiswaController extends Controller
     public function edit($id)
     {
         $tipe = TipeAktifitasMahasiswa::findorfail($id);
-        return view('akademik.tipe.edit', compact('tipe'));
+        return view('master.tipe.edit', compact('tipe'));
     }
 
     /**
