@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TipeAktifitasMahasiswa;
 use App\Models\AktifitasMahasiswa;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Organization;
 
 class UserAktifitasMahasiswaController extends Controller
 {
@@ -42,7 +43,8 @@ class UserAktifitasMahasiswaController extends Controller
     public function create()
     {
         $tipe = TipeAktifitasMahasiswa::get(['id', 'name', 'label', 'label_detail']);
-        return view('user.aktifitas-mahasiswa.create', compact('tipe'));
+        $organizations = Organization::all();
+        return view('user.aktifitas-mahasiswa.create', compact('tipe', 'organizations'));
     }
 
     /**
@@ -106,7 +108,8 @@ class UserAktifitasMahasiswaController extends Controller
     public function edit(string $id)
     {
         $aktifitas = AktifitasMahasiswa::with('tipe')->findOrFail($id);
-        return view('user.aktifitas-mahasiswa.edit', compact('aktifitas'));
+        $organizations = Organization::all();
+        return view('user.aktifitas-mahasiswa.edit', compact('aktifitas', 'organizations'));
     }
 
     /**

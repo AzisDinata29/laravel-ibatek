@@ -83,12 +83,12 @@
                             <div id="after-tipe" class="mt-1">
                                 <div class="row g-3">
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="label-wrapper">
                                         <label for="label" class="form-label">
                                             <span id="label-title"></span> <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control need-tipe" id="label" name="label"
-                                            placeholder="Isi sesuai tipe" value="{{ old('label') }}" {{ $disabledAttr }}>
+                                            placeholder="" value="{{ old('label') }}" {{ $disabledAttr }}>
                                         @error('label')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -98,8 +98,8 @@
                                             <span id="label-detail-title"></span> <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control need-tipe" id="label_detail"
-                                            name="label_detail" placeholder="Isi sesuai tipe"
-                                            value="{{ old('label_detail') }}" {{ $disabledAttr }}>
+                                            name="label_detail" placeholder="" value="{{ old('label_detail') }}"
+                                            {{ $disabledAttr }}>
                                         @error('label_detail')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -216,10 +216,33 @@
                 label: '',
                 label_detail: ''
             };
+
             labelTitle.textContent = meta.label || '';
             labelDetailTitle.textContent = meta.label_detail || '';
-            inputLabel.placeholder = meta.label || '';
-            inputLabelDetail.placeholder = meta.label_detail || '';
+
+            const labelWrapper = document.getElementById('label-wrapper');
+            labelWrapper.innerHTML = `
+                <label for="label" class="form-label">
+                    <span id="label-title">${meta.label || ''}</span> <span class="text-danger">*</span>
+                </label>
+            `;
+
+            if (id === "1") {
+                let selectHtml = `<select class="form-select need-tipe" id="label" name="label" ${!id ? 'disabled' : ''}>
+                    <option value="">-- Pilih Organisasi --</option>
+                    @foreach ($organizations as $org)
+                        <option value="{{ $org->name }}" {{ old('label') == $org->name ? 'selected' : '' }}>
+                            {{ $org->name }}
+                        </option>
+                    @endforeach
+                </select>`;
+                labelWrapper.innerHTML += selectHtml;
+            } else {
+                let inputHtml = `<input type="text" class="form-control need-tipe" id="label" name="label"
+                    placeholder="${meta.label || ''}" value="{{ old('label') }}" ${!id ? 'disabled' : ''}>`;
+                labelWrapper.innerHTML += inputHtml;
+            }
+
             setEnabled(!!id);
         }
 

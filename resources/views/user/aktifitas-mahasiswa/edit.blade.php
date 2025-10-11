@@ -66,16 +66,29 @@
                                 @enderror
                             </div>
                             <div class="col-md-6">
-                                <label for="label" class="form-label">Label <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="label" name="label"
-                                    value="{{ old('label', $aktifitas->label) }}" placeholder="Masukkan label kegiatan"
-                                    required>
+                                <label for="label" class="form-label">{{ $aktifitas->tipe->label }} <span
+                                        class="text-danger">*</span></label>
+                                @if ($aktifitas->tipe_aktifitas_mahasiswa_id == 1)
+                                    <select class="form-select" id="label" name="label" required>
+                                        <option value="">-- Pilih Organisasi --</option>
+                                        @foreach ($organizations as $org)
+                                            <option value="{{ $org->name }}"
+                                                {{ old('label', $aktifitas->label) == $org->name ? 'selected' : '' }}>
+                                                {{ $org->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <input type="text" class="form-control" id="label" name="label"
+                                        value="{{ old('label', $aktifitas->label) }}" placeholder="Masukkan label kegiatan"
+                                        required>
+                                @endif
                                 @error('label')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                             <div class="col-md-6">
-                                <label for="label_detail" class="form-label">Label Detail <span
+                                <label for="label_detail" class="form-label">{{ $aktifitas->tipe->label_detail }} <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="label_detail" name="label_detail"
                                     value="{{ old('label_detail', $aktifitas->label_detail) }}"
@@ -149,7 +162,6 @@
         </div>
     </div>
 @endsection
-
 @push('styles')
     <style>
         .form-control[readonly] {
@@ -158,10 +170,8 @@
         }
     </style>
 @endpush
-
 @push('scripts')
     <script>
-        // Auto-hide alert setelah 3 detik
         setTimeout(() => {
             document.querySelectorAll('.alert.alert-dismissible').forEach(el => {
                 const alert = new bootstrap.Alert(el);
