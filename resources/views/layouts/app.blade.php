@@ -68,9 +68,9 @@
         });
     </script>
     <script>
-        $('#usersTable').DataTable({
-            responsive: true
-        });
+        // $('#usersTable').DataTable({
+        //     responsive: true
+        // });
     </script>
 
 </body>

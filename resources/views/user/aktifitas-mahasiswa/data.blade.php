@@ -74,69 +74,27 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table id="usersTable" class="table align-middle nowrap mb-0" style="width:100%">
-                            <thead>
+                        <table id="usersTable" class="table table-striped table-hover align-middle nowrap"
+                            style="width:100%">
+                            <thead class="table-light">
                                 <tr>
-                                    <th style="width:48px">#</th>
-                                    <th style="width:70px">Aksi</th>
+                                    <th>#</th>
                                     <th>Status</th>
                                     <th>Kegiatan</th>
                                     <th>Durasi</th>
                                     <th>Semester</th>
                                     <th>Periode</th>
                                     <th>File</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data ?? [] as $i => $row)
                                     <tr>
-                                        <td class="text-muted text-center">{{ $i + 1 }}</td>
-                                        <td class="text-center">
-                                            <div class="d-flex flex-column align-items-stretch gap-2">
-                                                <a href="#"
-                                                    class="btn btn-sm btn-outline-info rounded-pill d-flex align-items-center justify-content-center gap-1 w-100 btn-detail"
-                                                    data-bs-toggle="modal" data-bs-target="#detailModal"
-                                                    data-tipe="{{ $row->tipe?->name }}" data-status="{{ $row->status }}"
-                                                    data-label="{{ $row->label }}"
-                                                    data-label-detail="{{ $row->label_detail }}"
-                                                    data-keterangan="{{ $row->keterangan }}"
-                                                    data-semester="{{ $row->semester }}" data-durasi="{{ $row->durasi }}"
-                                                    data-periode="{{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }} - {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}"
-                                                    data-file="{{ $row->file ? asset('storage/' . $row->file) : '' }}"
-                                                    data-label-title="{{ $row->tipe?->label ?? 'Judul Kegiatan' }}"
-                                                    data-detail-title="{{ $row->tipe?->label_detail ?? 'Detail Aktivitas' }}">
-                                                    <i class="bi bi-eye"></i>
-                                                    <span>Detail</span>
-                                                </a>
-                                                @if ($row->status !== 'Terima')
-                                                    <a href="{{ route('user-aktifitas-mahasiswa.edit', $row->id) }}"
-                                                        class="btn btn-sm btn-outline-warning rounded-pill d-flex align-items-center justify-content-center gap-1 w-100">
-                                                        <i class="bi bi-pencil"></i>
-                                                        <span>Edit</span>
-                                                    </a>
-                                                    <form id="form-delete-{{ $row->id }}"
-                                                        action="{{ route('user-aktifitas-mahasiswa.destroy', $row->id) }}"
-                                                        method="POST" class="d-inline w-100">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-outline-danger rounded-pill d-flex align-items-center justify-content-center gap-1 w-100 btn-delete"
-                                                            data-id="{{ $row->id }}">
-                                                            <i class="bi bi-trash"></i>
-                                                            <span>Hapus</span>
-                                                        </button>
-                                                    </form>
-                                                @else
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-outline-secondary rounded-pill d-flex align-items-center justify-content-center gap-1 w-100"
-                                                        disabled>
-                                                        <i class="bi bi-lock"></i>
-                                                        <span>Terkunci</span>
-                                                    </button>
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td class="text-center align-middle">
+                                        <td>{{ $i + 1 }}</td>
+
+                                        {{-- STATUS --}}
+                                        <td>
                                             @php
                                                 $badge = match ($row->status) {
                                                     'Terima' => 'success',
@@ -144,85 +102,72 @@
                                                     default => 'warning',
                                                 };
                                             @endphp
-                                            <span
-                                                class="badge bg-{{ $badge }} px-2 py-1 rounded-pill fw-semibold small">
-                                                {{ $row->status }}
-                                            </span>
-                                            @if ($row->status == 'Tidak Diterima')
-                                                <div class="text-muted small mt-1">
-                                                    {{ $row->keterangan_validasi }}
-                                                </div>
+                                            <span class="badge bg-{{ $badge }}">{{ $row->status }}</span>
+                                            @if ($row->status == 'Tidak Diterima' && $row->keterangan_validasi)
+                                                <div class="small text-muted mt-1">{{ $row->keterangan_validasi }}</div>
                                             @endif
                                         </td>
-                                        <td style="max-width:380px;">
-                                            <div class="mb-1">
-                                                <span
-                                                    class="badge bg-light text-secondary border border-secondary px-3 py-1 rounded-pill d-inline-flex align-items-center gap-1">
-                                                    <i class="bi bi-tag"></i>
-                                                    {{ $row->tipe?->name ?? 'Tidak ada tipe' }}
-                                                </span>
-                                            </div>
-                                            <div class="fw-semibold text-dark">
-                                                <i class="bi bi-journal-text me-1 text-secondary"></i>
-                                                {{ $row->label }}
-                                            </div>
-                                            @if ($row->label_detail)
-                                                <div class="text-muted small mt-1 d-flex align-items-start">
-                                                    <i class="bi bi-info-circle me-1"></i>
-                                                    <span>{{ $row->label_detail }}</span>
-                                                </div>
-                                            @endif
-                                            @if ($row->keterangan)
-                                                <div class="text-muted small fst-italic mt-1 d-flex align-items-start">
-                                                    <i class="bi bi-chat-left-text me-1"></i>
-                                                    <span>"{{ \Illuminate\Support\Str::limit($row->keterangan, 80) }}"</span>
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge bg-light text-dark px-2 py-1 rounded-pill">
-                                                {{ $row->durasi ?? '-' }}
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span
-                                                class="badge rounded-pill bg-light text-primary border border-primary d-inline-flex align-items-center gap-1 px-3 py-2 shadow-sm">
-                                                {{ $row->semester ? 'Semester ' . $row->semester : '—' }}
-                                            </span>
-                                        </td>
+
+                                        {{-- KEGIATAN --}}
                                         <td>
-                                            <div class="d-flex flex-column align-items-start">
-                                                <span class="fw-semibold text-dark d-flex align-items-center gap-1">
-                                                    <i class="bi bi-calendar-check text-success"></i>
-                                                    {{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }}
-                                                </span>
-                                                <span class="text-muted small d-flex align-items-center gap-1 mt-1">
-                                                    <i class="bi bi-arrow-return-right"></i>
-                                                    {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}
-                                                </span>
-                                            </div>
+                                            <strong>{{ $row->label }}</strong><br>
+                                            <small class="text-muted">{{ $row->label_detail ?? '-' }}</small>
                                         </td>
-                                        <td class="text-center">
+
+                                        {{-- DURASI --}}
+                                        <td>{{ $row->durasi ?? '-' }} Jam</td>
+
+                                        {{-- SEMESTER --}}
+                                        <td>{{ $row->semester ? 'Semester ' . $row->semester : '—' }}</td>
+
+                                        {{-- PERIODE --}}
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }} -
+                                            {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}
+                                        </td>
+
+                                        {{-- FILE --}}
+                                        <td>
                                             @if ($row->file)
                                                 <a href="{{ asset('storage/' . $row->file) }}" target="_blank"
-                                                    class="btn btn-sm btn-outline-success rounded-pill d-inline-flex align-items-center gap-1 shadow-sm"
-                                                    title="Klik untuk melihat file aktivitas">
-                                                    <i class="bi bi-paperclip fs-6"></i>
-                                                    <span>Lihat File</span>
+                                                    class="btn btn-sm btn-outline-success">
+                                                    Lihat File
                                                 </a>
                                             @else
-                                                <button type="button"
-                                                    class="btn btn-sm btn-outline-secondary rounded-pill d-inline-flex align-items-center gap-1"
-                                                    title="Belum ada file yang diunggah" disabled>
-                                                    <i class="bi bi-file-earmark-text fs-6"></i>
-                                                    <span>Tidak Ada</span>
-                                                </button>
+                                                <span class="text-muted small">Tidak Ada</span>
+                                            @endif
+                                        </td>
+
+                                        {{-- AKSI --}}
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-info btn-detail" data-bs-toggle="modal"
+                                                data-bs-target="#detailModal" data-label="{{ $row->label }}"
+                                                data-detail="{{ $row->label_detail }}" data-durasi="{{ $row->durasi }}"
+                                                data-semester="{{ $row->semester }}"
+                                                data-periode="{{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }} - {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}"
+                                                data-status="{{ $row->status }}">
+                                                Detail
+                                            </a>
+
+                                            @if ($row->status !== 'Terima')
+                                                <a href="{{ route('user-aktifitas-mahasiswa.edit', $row->id) }}"
+                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <form action="{{ route('user-aktifitas-mahasiswa.destroy', $row->id) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-danger btn-delete">Hapus</button>
+                                                </form>
+                                            @else
+                                                <button class="btn btn-sm btn-secondary" disabled>Terkunci</button>
                                             @endif
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>

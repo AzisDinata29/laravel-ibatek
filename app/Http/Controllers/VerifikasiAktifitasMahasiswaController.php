@@ -40,7 +40,7 @@ class VerifikasiAktifitasMahasiswaController extends Controller
             ->orderBy('angkatan', 'desc')
             ->pluck('angkatan');
 
-        return view('master.aktifitas-mahasiswa.data', compact('data', 'tipe', 'angkatanList'));
+        return view('master.verifikasi-aktifitas-mahasiswa.data', compact('data', 'tipe', 'angkatanList'));
     }
     /**
      * Show the form for creating a new resource.
@@ -73,7 +73,7 @@ class VerifikasiAktifitasMahasiswaController extends Controller
     {
         $aktifitas = AktifitasMahasiswa::with(['tipe', 'user'])->findOrFail($id);
         $organizations = Organization::all();
-        return view('master.aktifitas-mahasiswa.edit', compact('aktifitas', 'organizations'));
+        return view('master.verifikasi-aktifitas-mahasiswa.edit', compact('aktifitas', 'organizations'));
     }
 
     /**

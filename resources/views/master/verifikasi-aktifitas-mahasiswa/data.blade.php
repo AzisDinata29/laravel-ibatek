@@ -70,14 +70,18 @@
                             </div>
                         </form>
                     </div>
-
                     <div class="table-responsive">
-                        <table id="usersTable" class="table align-middle nowrap mb-0" style="width:100%">
-                            <thead>
+                        <table id="usersTable" class="table table-striped table-hover align-middle nowrap"
+                            style="width:100%">
+                            <thead class="table-light">
                                 <tr>
-                                    <th style="width:48px">#</th>
-                                    <th style="width:70px">Aksi</th>
-                                    <th>Keterangan</th>
+                                    <th>No</th>
+                                    <th>Aksi</th>
+                                    <th>Status</th>
+                                    <th>Nama</th>
+                                    <th>NPM</th>
+                                    <th>Fakultas</th>
+                                    <th>Prodi</th>
                                     <th>Kegiatan</th>
                                     <th>Semester</th>
                                     <th>Periode</th>
@@ -87,105 +91,43 @@
                             <tbody>
                                 @foreach ($data ?? [] as $i => $row)
                                     <tr>
-                                        <td class="text-muted text-center">{{ $i + 1 }}</td>
-                                        <td class="text-center">
-                                            <div class="d-flex flex-column align-items-stretch gap-2">
-                                                <button
-                                                    class="btn btn-sm btn-outline-warning rounded-pill d-flex align-items-center justify-content-center gap-1 w-100 btnEditAktifitas"
-                                                    data-id="{{ $row->id }}">
-                                                    <i class="bi bi-pencil"></i>
-                                                    <span>Verifikasi</span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle text-start">
-                                            <div class="d-flex flex-column gap-1">
-                                                <div class="fw-bold text-dark">
-                                                    <span class="text-primary">{{ $row->user->name }}</span>
-                                                </div>
-                                                <div class="text-muted small">
-                                                    NPM: <span class="fw-semibold">{{ $row->user->npm }}</span>
-                                                </div>
-                                                <div class="text-muted small">
-                                                    Fakultas: <span
-                                                        class="fw-semibold">{{ $row->user->fakultas_detail->name ?? '-' }}</span>
-                                                </div>
-                                                <div class="text-muted small">
-                                                    Program Studi: <span
-                                                        class="fw-semibold">{{ $row->user->prodi_detail->name ?? '-' }}</span>
-                                                </div>
-                                                <div class="mt-1">
-                                                    @if ($row->status == 'Terima')
-                                                        <span
-                                                            class="badge bg-success px-3 py-1 rounded-pill fw-semibold small">
-                                                            {{ $row->status }}
-                                                        </span>
-                                                    @elseif ($row->status == 'Tidak Diterima')
-                                                        <span
-                                                            class="badge bg-danger px-3 py-1 rounded-pill fw-semibold small">
-                                                            {{ $row->status }}
-                                                        </span>
-                                                    @else
-                                                        <span
-                                                            class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-semibold small">
-                                                            {{ $row->status }}
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td style="max-width:380px;">
-                                            <div class="mb-1">
-                                                <span
-                                                    class="badge bg-light text-secondary border border-secondary px-3 py-1 rounded-pill d-inline-flex align-items-center gap-1">
-                                                    <i class="bi bi-tag"></i>
-                                                    {{ $row->tipe?->name ?? 'Tidak ada tipe' }}
-                                                </span>
-                                            </div>
-                                            <div class="fw-semibold text-dark">
-                                                <i class="bi bi-journal-text me-1 text-secondary"></i>
-                                                {{ $row->label }}
-                                            </div>
-                                            @if ($row->label_detail)
-                                                <div class="text-muted small mt-1 d-flex align-items-start">
-                                                    <i class="bi bi-info-circle me-1"></i>
-                                                    <span>{{ $row->label_detail }}</span>
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            <span
-                                                class="badge rounded-pill bg-light text-primary border border-primary d-inline-flex align-items-center gap-1 px-3 py-2 shadow-sm">
-                                                {{ $row->semester ? 'Semester ' . $row->semester : '—' }}
-                                            </span>
+                                        <td>{{ $i + 1 }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning btnEditAktifitas"
+                                                data-id="{{ $row->id }}">
+                                                Verifikasi
+                                            </button>
                                         </td>
                                         <td>
-                                            <div class="d-flex flex-column align-items-start">
-                                                <span class="fw-semibold text-dark d-flex align-items-center gap-1">
-                                                    <i class="bi bi-calendar-check text-success"></i>
-                                                    {{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }}
-                                                </span>
-                                                <span class="text-muted small d-flex align-items-center gap-1 mt-1">
-                                                    <i class="bi bi-arrow-return-right"></i>
-                                                    {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}
-                                                </span>
-                                            </div>
+                                            @if ($row->status == 'Terima')
+                                                <span class="badge bg-success">{{ $row->status }}</span>
+                                            @elseif ($row->status == 'Tidak Diterima')
+                                                <span class="badge bg-danger">{{ $row->status }}</span>
+                                            @else
+                                                <span class="badge bg-warning text-dark">{{ $row->status }}</span>
+                                            @endif
                                         </td>
-                                        <td class="text-center">
+                                        <td>{{ $row->user->name }}</td>
+                                        <td>{{ $row->user->npm }}</td>
+                                        <td>{{ $row->user->fakultas_detail->name ?? '-' }}</td>
+                                        <td>{{ $row->user->prodi_detail->name ?? '-' }}</td>
+                                        <td>
+                                            <strong>{{ $row->label }}</strong><br>
+                                            <small class="text-muted">{{ $row->label_detail ?? '-' }}</small>
+                                        </td>
+                                        <td>{{ $row->semester ? 'Semester ' . $row->semester : '—' }}</td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }} -
+                                            {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}
+                                        </td>
+                                        <td>
                                             @if ($row->file)
                                                 <a href="{{ asset('storage/' . $row->file) }}" target="_blank"
-                                                    class="btn btn-sm btn-outline-success rounded-pill d-inline-flex align-items-center gap-1 shadow-sm"
-                                                    title="Klik untuk melihat file aktivitas">
-                                                    <i class="bi bi-paperclip fs-6"></i>
-                                                    <span>Lihat File</span>
+                                                    class="btn btn-sm btn-outline-success">
+                                                    Lihat File
                                                 </a>
                                             @else
-                                                <button type="button"
-                                                    class="btn btn-sm btn-outline-secondary rounded-pill d-inline-flex align-items-center gap-1"
-                                                    title="Belum ada file yang diunggah" disabled>
-                                                    <i class="bi bi-file-earmark-text fs-6"></i>
-                                                    <span>Tidak Ada</span>
-                                                </button>
+                                                <span class="text-muted small">Tidak Ada</span>
                                             @endif
                                         </td>
                                     </tr>
