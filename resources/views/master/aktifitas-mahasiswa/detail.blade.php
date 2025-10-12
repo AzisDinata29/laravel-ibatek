@@ -82,6 +82,13 @@
                     </div>
                 </form>
             </div>
+            <div class="rounded-4 border bg-light p-3 mb-4 shadow-sm">
+                <form method="GET" action="{{ route('aktifitas-mahasiswa.cetak', $user->id) }}" class="row g-3">
+                    <div class="col-12 col-md-2 d-flex align-items-end gap-2">
+                        <button type="submit" class="btn btn-primary btn-sm rounded-pill w-100">Cetak</button>
+                    </div>
+                </form>
+            </div>
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-header bg-white">
                     <h5 class="mb-0 fw-bold text-primary">Aktivitas Mahasiswa (Status: Diterima)</h5>
