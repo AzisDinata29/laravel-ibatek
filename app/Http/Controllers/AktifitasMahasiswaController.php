@@ -20,7 +20,6 @@ class AktifitasMahasiswaController extends Controller
 
         $hasFilter = false;
 
-        // Filter wajib
         if ($request->filled('fakultas_id')) {
             $query->where('fakultas', $request->fakultas_id);
             $hasFilter = true;
@@ -76,19 +75,50 @@ class AktifitasMahasiswaController extends Controller
     {
         $user = User::with(['fakultas_detail', 'prodi_detail'])->findOrFail($id);
         $tipeAktifitas = TipeAktifitasMahasiswa::orderBy('name')->get();
-        $query = AktifitasMahasiswa::where('user_id', $user->id)
-            ->where('status', 'Terima');
+
+        // NOTE: samakan status di DB. Kamu pakai 'Terima' di query,
+        // tapi judul tabel tulis "Diterima". Pilih salah satu, mis. 'Terima'.
+        $statusDiterima = 'Terima';
+
+        $base = AktifitasMahasiswa::where('user_id', $user->id)
+            ->where('status', $statusDiterima);
+
         if ($request->filled('semester')) {
-            $query->where('semester', $request->semester);
+            $base->where('semester', (string) $request->semester);
         }
         if ($request->filled('tipe_id')) {
-            $query->where('tipe_aktifitas_mahasiswa_id', $request->tipe_id);
+            $base->where('tipe_aktifitas_mahasiswa_id', $request->tipe_id);
         }
-        $aktifitas = $query->orderBy('semester', 'desc')->get();
+
+        // Ambil semua baris yang lolos filter (nanti kita group di memory)
+        $rows = $base->orderBy('tanggal_mulai')->get();
+
+        // Tentukan semester mana yang ditampilkan
+        $visibleSemesters = $request->filled('semester')
+            ? [(int) $request->semester]
+            : range(1, 8);
+
+        $bySemester = collect($visibleSemesters)->mapWithKeys(function ($s) use ($rows) {
+            $items = $rows->where('semester', (string) $s)->values();
+
+            $totalDurasi = $items->sum(function ($r) {
+                return (int) ($r->durasi ?? 0);
+            });
+
+            return [$s => [
+                'items'             => $items,
+                'total_durasi'       => $totalDurasi,
+                'jumlah_kegiatan'   => $items->count(),
+                'nilai'             => $this->nilaiAktivitas($totalDurasi),
+            ]];
+        });
+
         return view('master.aktifitas-mahasiswa.detail', compact(
             'user',
-            'aktifitas',
-            'tipeAktifitas'
+            'tipeAktifitas',
+            'rows',          // kalau masih mau dipakai di tempat lain
+            'bySemester',
+            'visibleSemesters'
         ));
     }
 
@@ -110,22 +140,24 @@ class AktifitasMahasiswaController extends Controller
 
     public function cetak(Request $request, string $id)
     {
-        $tipeId = $request->get('tipe_id');
-
+        $data = $request->validate([
+            'semester' => 'nullable|integer|between:1,8',
+        ]);
         $user = User::with(['fakultas_detail', 'prodi_detail'])->findOrFail($id);
+        $loopSemesters = !empty($data['semester'])
+            ? [(int) $data['semester']]
+            : range(1, 8);
+
         $semesters = [];
-        for ($s = 1; $s <= 8; $s++) {
-            $rows = AktifitasMahasiswa::when(!empty($tipeId), function ($q) use ($tipeId) {
-                return $q->where('tipe_aktifitas_mahasiswa_id', $tipeId);
-            })
-                ->where('user_id', $user->id)
+
+        foreach ($loopSemesters as $s) {
+            $rows = AktifitasMahasiswa::where('user_id', $user->id)
                 ->where('status', 'Terima')
                 ->where('semester', (string) $s)
                 ->orderBy('tanggal_mulai')
                 ->get();
-            $totalDurasi = (int) $rows->sum(function ($r) {
-                return (int) ($r->durasi ?? 0);
-            });
+
+            $totalDurasi = (int) $rows->sum('durasi');
 
             $items = $rows->map(function ($r) {
                 $tglMulai   = Carbon::parse($r->tanggal_mulai)->format('d/m/Y');
@@ -134,9 +166,7 @@ class AktifitasMahasiswaController extends Controller
                 return [
                     'jenis' => $r->label,
                     'tipe'  => $r->tipe->name ?? '-',
-                    'tgl'   => ($r->tanggal_mulai === $r->tanggal_selesai)
-                        ? $tglMulai
-                        : $tglMulai . ' - ' . $tglSelesai,
+                    'tgl'   => ($r->tanggal_mulai === $r->tanggal_selesai) ? $tglMulai : $tglMulai . ' - ' . $tglSelesai,
                     'waktu' => $r->durasi ? $r->durasi . ' jam' : '',
                     'ket'   => $r->keterangan ?: '',
                 ];
@@ -147,11 +177,11 @@ class AktifitasMahasiswaController extends Controller
             }
 
             $semesters[] = [
-                'no'         => $this->toRoman((int) $s),
+                'no'         => $this->toRoman($s),
                 'judul'      => $this->angkaKeKata($s),
                 'items'      => $items,
                 'total'      => $totalDurasi,
-                'kesimpulan' => $this->nilaiAktivitas($totalDurasi)
+                'kesimpulan' => $this->nilaiAktivitas($totalDurasi),
             ];
         }
 
@@ -160,7 +190,13 @@ class AktifitasMahasiswaController extends Controller
             'semesters' => $semesters,
         ])->setPaper('A4', 'portrait');
 
-        $filename = "Buku-Aktivitas_Semester-1-8-{$user->name}.pdf";
+        if (count($loopSemesters) === 1) {
+            $rom = $this->toRoman($loopSemesters[0]);
+            $filename = "Buku-Aktivitas-Semester-{$rom}-{$user->name}-{$user->npm}.pdf";
+        } else {
+            $filename = "Buku-Aktivitas-Semester-1-sampai-8-{$user->name}-{$user->npm}.pdf";
+        }
+
         return $pdf->download($filename);
     }
 

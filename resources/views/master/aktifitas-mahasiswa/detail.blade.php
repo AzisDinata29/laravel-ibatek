@@ -54,6 +54,24 @@
                 </div>
             </div>
             <div class="rounded-4 border bg-light p-3 mb-4 shadow-sm">
+                <form method="GET" action="{{ route('aktifitas-mahasiswa.cetak', $user->id) }}" class="row g-3">
+                    <div class="col-12 col-md-4">
+                        <label class="form-label mb-1">Semester</label>
+                        <select name="semester" id="filterSemester" class="form-select form-select-sm rounded-pill">
+                            <option value="">Semua</option>
+                            @for ($i = 1; $i <= 8; $i++)
+                                <option value="{{ $i }}" {{ request('semester') == $i ? 'selected' : '' }}>
+                                    Semester {{ $i }}
+                                </option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2 d-flex align-items-end gap-2">
+                        <button type="submit" class="btn btn-primary btn-sm rounded-pill w-100">Cetak</button>
+                    </div>
+                </form>
+            </div>
+            <div class="rounded-4 border bg-light p-3 mb-4 shadow-sm">
                 <form method="GET" action="{{ route('aktifitas-mahasiswa.show', $user->id) }}" class="row g-3">
                     <div class="col-12 col-md-4">
                         <label class="form-label mb-1">Semester</label>
@@ -82,56 +100,98 @@
                     </div>
                 </form>
             </div>
-            <div class="rounded-4 border bg-light p-3 mb-4 shadow-sm">
-                <form method="GET" action="{{ route('aktifitas-mahasiswa.cetak', $user->id) }}" class="row g-3">
-                    <div class="col-12 col-md-2 d-flex align-items-end gap-2">
-                        <button type="submit" class="btn btn-primary btn-sm rounded-pill w-100">Cetak</button>
-                    </div>
-                </form>
-            </div>
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-header bg-white">
-                    <h5 class="mb-0 fw-bold text-primary">Aktivitas Mahasiswa (Status: Diterima)</h5>
+                    <h5 class="mb-0 fw-bold text-primary">Aktivitas Mahasiswa</h5>
                 </div>
                 <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover align-middle mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Tipe</th>
-                                    <th>Label</th>
-                                    <th>Semester</th>
-                                    <th>Durasi</th>
-                                    <th>Tanggal</th>
-                                    <th>Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($aktifitas as $i => $a)
-                                    <tr>
-                                        <td class="text-center">{{ $i + 1 }}</td>
-                                        <td>{{ $a->tipe?->name ?? '-' }}</td>
-                                        <td>{{ $a->label }}</td>
-                                        <td>{{ $a->semester }}</td>
-                                        <td>{{ $a->durasi ?? '-' }}</td>
-                                        <td>
-                                            {{ \Carbon\Carbon::parse($a->tanggal_mulai)->format('d M Y') }} -
-                                            {{ \Carbon\Carbon::parse($a->tanggal_selesai)->format('d M Y') }}
-                                        </td>
-                                        <td>{{ $a->keterangan ?? '-' }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center text-muted py-3">
-                                            <i class="bi bi-info-circle me-1"></i>
-                                            Tidak ada data aktivitas diterima.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                    @foreach ($visibleSemesters as $s)
+                        @php
+                            $data = $bySemester[$s] ?? [
+                                'items' => collect(),
+                                'total_durasi' => 0,
+                                'jumlah_kegiatan' => 0,
+                                'nilai' => 'Kurang / Tidak Aktif Kegiatan',
+                            ];
+
+                            $badgeClass = 'bg-secondary';
+                            if ($data['nilai'] === 'Baik') {
+                                $badgeClass = 'bg-success';
+                            } elseif ($data['nilai'] === 'Kurang Baik') {
+                                $badgeClass = 'bg-warning text-dark';
+                            }
+                        @endphp
+
+                        <div class="card shadow-sm border-0 rounded-4 mb-4">
+                            <div class="card-header bg-white">
+                                <div
+                                    class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
+                                    <h5 class="mb-0 fw-bold text-primary">Semester {{ $s }}
+                                    </h5>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-info">
+                                            {{ $data['jumlah_kegiatan'] }} kegiatan
+                                        </span>
+                                        <span class="badge bg-primary">
+                                            Total: {{ $data['total_durasi'] }} Jam
+                                        </span>
+                                        <span class="badge {{ $badgeClass }}">
+                                            {{ $data['nilai'] }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th style="width:56px">No</th>
+                                                <th>Tipe</th>
+                                                <th>Label</th>
+                                                <th>Semester</th>
+                                                <th>Durasi</th>
+                                                <th>Tanggal</th>
+                                                <th>Keterangan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($data['items'] as $i => $a)
+                                                <tr>
+                                                    <td class="text-center">{{ $i + 1 }}</td>
+                                                    <td>{{ $a->tipe?->name ?? '-' }}</td>
+                                                    <td>{{ $a->label }}</td>
+                                                    <td>{{ $a->semester }}</td>
+                                                    <td>
+                                                        @php
+                                                            $menit = (int) ($a->durasi ?? 0);
+                                                            $jam = intdiv($menit, 60);
+                                                            $sis = $menit % 60;
+                                                        @endphp
+                                                        {{ $jam }} jam{{ $sis ? " {$sis} menit" : '' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ \Carbon\Carbon::parse($a->tanggal_mulai)->format('d M Y') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($a->tanggal_selesai)->format('d M Y') }}
+                                                    </td>
+                                                    <td>{{ $a->keterangan ?? '-' }}</td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="7" class="text-center text-muted py-3">
+                                                        <i class="bi bi-info-circle me-1"></i>
+                                                        Tidak ada data aktivitas diterima pada semester ini.
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
