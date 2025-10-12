@@ -162,6 +162,36 @@
             max-height: 100%;
             line-height: normal;
         }
+
+        .summary {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0 6px;
+            font-size: 11px;
+        }
+
+        .summary td {
+            border: none;
+            padding: 2px 0;
+            vertical-align: top;
+        }
+
+        .summary .label {
+            width: 38%;
+            font-weight: 600;
+            color: #606770;
+        }
+
+        .summary .colon {
+            width: 6mm;
+            text-align: center;
+            color: #606770;
+        }
+
+        .summary .val {
+            width: auto;
+            border-bottom: 1px dotted #999;
+        }
     </style>
 
 </head>
@@ -260,7 +290,18 @@
                 @endforeach
             </tbody>
         </table>
-
+        <table class="summary">
+            <tr>
+                <td class="label">Total Durasi Semester {{ $sem['no'] }}</td>
+                <td class="colon">:</td>
+                <td class="val">{{ $sem['total'] }} jam</td>
+            </tr>
+            <tr>
+                <td class="label">Kesimpulan</td>
+                <td class="colon">:</td>
+                <td class="val">{{ $sem['kesimpulan'] }}</td>
+            </tr>
+        </table>
         <table class="signature">
             <tr>
                 <td style="width:60%">

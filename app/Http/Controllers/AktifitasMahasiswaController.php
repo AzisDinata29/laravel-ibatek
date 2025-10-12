@@ -123,6 +123,9 @@ class AktifitasMahasiswaController extends Controller
                 ->where('semester', (string) $s)
                 ->orderBy('tanggal_mulai')
                 ->get();
+            $totalDurasi = (int) $rows->sum(function ($r) {
+                return (int) ($r->durasi ?? 0);
+            });
 
             $items = $rows->map(function ($r) {
                 $tglMulai   = Carbon::parse($r->tanggal_mulai)->format('d/m/Y');
@@ -130,7 +133,7 @@ class AktifitasMahasiswaController extends Controller
 
                 return [
                     'jenis' => $r->label,
-                    'tipe' => $r->tipe->name ?? '-',
+                    'tipe'  => $r->tipe->name ?? '-',
                     'tgl'   => ($r->tanggal_mulai === $r->tanggal_selesai)
                         ? $tglMulai
                         : $tglMulai . ' - ' . $tglSelesai,
@@ -144,9 +147,11 @@ class AktifitasMahasiswaController extends Controller
             }
 
             $semesters[] = [
-                'no'    => $this->toRoman((int) $s),
-                'judul' => $this->angkaKeKata($s),
-                'items' => $items,
+                'no'         => $this->toRoman((int) $s),
+                'judul'      => $this->angkaKeKata($s),
+                'items'      => $items,
+                'total'      => $totalDurasi,
+                'kesimpulan' => $this->nilaiAktivitas($totalDurasi)
             ];
         }
 
@@ -158,6 +163,18 @@ class AktifitasMahasiswaController extends Controller
         $filename = "Buku-Aktivitas_Semester-1-8-{$user->name}.pdf";
         return $pdf->download($filename);
     }
+
+    private function nilaiAktivitas(int $totalJam): string
+    {
+        if ($totalJam >= 70) {
+            return 'Baik';
+        }
+        if ($totalJam >= 50) {
+            return 'Kurang Baik';
+        }
+        return 'Kurang / Tidak Aktif Kegiatan';
+    }
+
 
     private function toRoman(int $num): string
     {
