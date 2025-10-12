@@ -104,7 +104,7 @@
                                 @forelse ($aktifitas as $i => $a)
                                     <tr>
                                         <td class="text-center">{{ $i + 1 }}</td>
-                                        <td>{{ $a->tipeAktifitasMahasiswa?->name ?? '-' }}</td>
+                                        <td>{{ $a->tipe?->name ?? '-' }}</td>
                                         <td>{{ $a->label }}</td>
                                         <td>{{ $a->semester }}</td>
                                         <td>{{ $a->durasi ?? '-' }}</td>

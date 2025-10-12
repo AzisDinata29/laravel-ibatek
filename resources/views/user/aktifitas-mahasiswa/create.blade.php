@@ -82,7 +82,6 @@
 
                             <div id="after-tipe" class="mt-1">
                                 <div class="row g-3">
-
                                     <div class="col-md-6" id="label-wrapper">
                                         <label for="label" class="form-label">
                                             <span id="label-title"></span> <span class="text-danger">*</span>
@@ -124,8 +123,8 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="durasi" class="form-label">Durasi</label>
-                                        <input type="text" class="form-control need-tipe" id="durasi"
+                                        <label for="durasi" class="form-label">Durasi (Jam)</label>
+                                        <input type="number" class="form-control need-tipe" id="durasi"
                                             name="durasi" placeholder="Durasi" value="{{ old('durasi') }}"
                                             {{ $disabledAttr }}>
                                         @error('durasi')

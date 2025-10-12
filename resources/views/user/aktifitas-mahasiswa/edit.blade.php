@@ -116,8 +116,8 @@
                                 @enderror
                             </div>
                             <div class="col-md-4">
-                                <label for="durasi" class="form-label">Durasi</label>
-                                <input type="text" class="form-control" id="durasi" name="durasi"
+                                <label for="durasi" class="form-label">Durasi (Jam)</label>
+                                <input type="number" class="form-control" id="durasi" name="durasi"
                                     value="{{ old('durasi', $aktifitas->durasi) }}" placeholder="Durasi kegiatan">
                                 @error('durasi')
                                     <small class="text-danger">{{ $message }}</small>

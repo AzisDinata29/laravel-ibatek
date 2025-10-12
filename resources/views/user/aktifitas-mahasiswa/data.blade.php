@@ -92,8 +92,6 @@
                                 @foreach ($data ?? [] as $i => $row)
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
-
-                                        {{-- STATUS --}}
                                         <td>
                                             @php
                                                 $badge = match ($row->status) {
@@ -107,26 +105,16 @@
                                                 <div class="small text-muted mt-1">{{ $row->keterangan_validasi }}</div>
                                             @endif
                                         </td>
-
-                                        {{-- KEGIATAN --}}
                                         <td>
                                             <strong>{{ $row->label }}</strong><br>
                                             <small class="text-muted">{{ $row->label_detail ?? '-' }}</small>
                                         </td>
-
-                                        {{-- DURASI --}}
-                                        <td>{{ $row->durasi ?? '-' }} Jam</td>
-
-                                        {{-- SEMESTER --}}
+                                        <td>{{ $row->durasi ?? '-' }}</td>
                                         <td>{{ $row->semester ? 'Semester ' . $row->semester : '—' }}</td>
-
-                                        {{-- PERIODE --}}
                                         <td>
                                             {{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }} -
                                             {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}
                                         </td>
-
-                                        {{-- FILE --}}
                                         <td>
                                             @if ($row->file)
                                                 <a href="{{ asset('storage/' . $row->file) }}" target="_blank"
@@ -137,27 +125,32 @@
                                                 <span class="text-muted small">Tidak Ada</span>
                                             @endif
                                         </td>
-
-                                        {{-- AKSI --}}
                                         <td>
                                             <a href="#" class="btn btn-sm btn-info btn-detail" data-bs-toggle="modal"
                                                 data-bs-target="#detailModal" data-label="{{ $row->label }}"
-                                                data-detail="{{ $row->label_detail }}" data-durasi="{{ $row->durasi }}"
-                                                data-semester="{{ $row->semester }}"
+                                                data-tipe="{{ $row->tipe?->name }}" data-status="{{ $row->status }}"
+                                                data-label="{{ $row->label }}"
+                                                data-label-detail="{{ $row->label_detail }}"
+                                                data-keterangan="{{ $row->keterangan }}"
+                                                data-semester="{{ $row->semester }}" data-durasi="{{ $row->durasi }}"
                                                 data-periode="{{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }} - {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}"
-                                                data-status="{{ $row->status }}">
+                                                data-file="{{ $row->file ? asset('storage/' . $row->file) : '' }}"
+                                                data-label-title="{{ $row->tipe?->label ?? 'Judul Kegiatan' }}"
+                                                data-detail-title="{{ $row->tipe?->label_detail ?? 'Detail Aktivitas' }}">
                                                 Detail
                                             </a>
 
                                             @if ($row->status !== 'Terima')
                                                 <a href="{{ route('user-aktifitas-mahasiswa.edit', $row->id) }}"
                                                     class="btn btn-sm btn-warning">Edit</a>
-                                                <form action="{{ route('user-aktifitas-mahasiswa.destroy', $row->id) }}"
+                                                <form id="form-delete-{{ $row->id }}"
+                                                    action="{{ route('user-aktifitas-mahasiswa.destroy', $row->id) }}"
                                                     method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-danger btn-delete">Hapus</button>
+                                                    <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                        data-id="{{ $row->id }}"> Hapus
+                                                    </button>
                                                 </form>
                                             @else
                                                 <button class="btn btn-sm btn-secondary" disabled>Terkunci</button>
@@ -329,20 +322,25 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {
-                document.querySelectorAll('.btn-delete').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
+                document.querySelectorAll('.btn-delete').forEach(button => {
+                    button.addEventListener('click', function(e) {
                         e.preventDefault();
-                        const id = this.getAttribute('data-id');
+                        const id = this.dataset.id;
                         const form = document.getElementById(`form-delete-${id}`);
 
                         Swal.fire({
-                            title: 'Yakin ingin menghapus?',
+                            title: 'Yakin ingin menghapus data ini?',
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#d33',
                             cancelButtonColor: '#6c757d',
                             confirmButtonText: 'Ya, hapus!',
-                            cancelButtonText: 'Batal'
+                            cancelButtonText: 'Batal',
+                            reverseButtons: true,
+                            customClass: {
+                                confirmButton: 'rounded-pill px-4',
+                                cancelButton: 'rounded-pill px-4'
+                            }
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 form.submit();
