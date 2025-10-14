@@ -8,14 +8,54 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Users</h4>
+                    <h4>Mahasiswa</h4>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
-                        Add User
+                        Add Mahasiswa
                     </button>
                 </div>
                 <div class="card-body">
+                    <div class="rounded-4 p-3 mb-4">
+                        <form method="GET" action="{{ route('user') }}" class="row g-3">
+                            <div class="col-12 col-md-4">
+                                <label class="form-label mb-1">Fakultas</label>
+                                <select name="fakultas_id" id="filterFakultas"
+                                    class="form-select form-select-sm rounded-pill" required>
+                                    <option value="" selected disabled>-- Pilih Fakultas --</option>
+                                    @foreach ($fakultas ?? [] as $f)
+                                        <option value="{{ $f->id }}"
+                                            {{ request('fakultas_id') == $f->id ? 'selected' : '' }}>
+                                            {{ $f->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label mb-1">Program Studi</label>
+                                <select name="prodi_id" id="filterProdi" class="form-select form-select-sm rounded-pill"
+                                    required>
+                                    <option value="" selected disabled>-- Pilih Prodi --</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label class="form-label mb-1">Angkatan</label>
+                                <select name="angkatan" id="filterAngkatan" class="form-select form-select-sm rounded-pill"
+                                    required>
+                                    <option value="" selected disabled>-- Pilih Angkatan --</option>
+                                    @foreach ($angkatanList ?? [] as $angk)
+                                        <option value="{{ $angk }}"
+                                            {{ request('angkatan') == $angk ? 'selected' : '' }}>
+                                            {{ $angk }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-1 d-flex align-items-end gap-2">
+                                <button type="submit" class="btn btn-primary w-100 btn-sm rounded-pill">Filter</button>
+                            </div>
+                        </form>
+                    </div>
                     <div class="table-responsive">
-                        <table id="usersTable" class="table table-striped table-hover align-middle nowrap"
+                        <table id="dataTables" class="table table-striped table-hover align-middle nowrap"
                             style="width:100%">
                             <thead>
                                 <tr>
@@ -34,7 +74,6 @@
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-
                                         <td>
                                             @if ($user->profile_photo)
                                                 <img src="{{ asset('storage/' . $user->profile_photo) }}"
@@ -369,6 +408,40 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fakultasSelect = document.getElementById('filterFakultas');
+            const prodiSelect = document.getElementById('filterProdi');
+            const selectedProdi = "{{ request('prodi_id') ?? '' }}";
+
+            fakultasSelect.addEventListener('change', function() {
+                const fakultasId = this.value;
+                prodiSelect.innerHTML = '<option value="">Pilih Prodi</option>';
+
+                if (fakultasId) {
+                    fetch(`/prodi/by-fakultas/${fakultasId}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            data.forEach(prodi => {
+                                const opt = document.createElement('option');
+                                opt.value = prodi.id;
+                                opt.textContent = prodi.name;
+                                if (selectedProdi == prodi.id) opt.selected = true;
+                                prodiSelect.appendChild(opt);
+                            });
+                        });
+                }
+            });
+
+            // trigger otomatis saat load pertama kali
+            if (fakultasSelect.value) fakultasSelect.dispatchEvent(new Event('change'));
+        });
+    </script>
+    <script>
+        $('#dataTables').DataTable({
+            responsive: true
         });
     </script>
 @endpush

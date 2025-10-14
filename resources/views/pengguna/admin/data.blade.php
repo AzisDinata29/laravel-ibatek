@@ -8,9 +8,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Users</h4>
+                    <h4>Admin</h4>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
-                        Add User
+                        Add Admin
                     </button>
                 </div>
                 <div class="card-body">

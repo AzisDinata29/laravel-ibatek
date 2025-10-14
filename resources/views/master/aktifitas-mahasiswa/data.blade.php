@@ -11,7 +11,7 @@
                     <h4>Aktifitas Mahasiswa</h4>
                 </div>
                 <div class="card-body">
-                    <div class="rounded-4 border bg-light p-3 mb-4 shadow-sm">
+                    <div class="rounded-4 p-3 mb-4">
                         <form method="GET" action="{{ route('aktifitas-mahasiswa.index') }}" class="row g-3">
                             <div class="col-12 col-md-4">
                                 <label class="form-label mb-1">Fakultas</label>

@@ -11,14 +11,41 @@ use App\Models\Prodi;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with(['fakultas_detail', 'prodi_detail'])
-            ->where('role', 'user')->get();
+        $query = User::with(['fakultas_detail', 'prodi_detail'])
+            ->where('role', 'user');
+
+        $hasFilter = false;
+
+        if ($request->filled('fakultas_id')) {
+            $query->where('fakultas', $request->fakultas_id);
+            $hasFilter = true;
+        }
+
+        if ($request->filled('prodi_id')) {
+            $query->where('prodi', $request->prodi_id);
+            $hasFilter = true;
+        }
+
+        if ($request->filled('angkatan')) {
+            $query->where('angkatan', $request->angkatan);
+            $hasFilter = true;
+        }
+
+        $users = ($request->filled('fakultas_id') && $request->filled('prodi_id') && $request->filled('angkatan'))
+            ? $query->get()
+            : collect();
 
         $fakultas = Fakultas::orderBy('name')->get(['id', 'name']);
 
-        return view('pengguna.user.data', compact('users', 'fakultas'));
+        $angkatanList = User::where('role', 'user')
+            ->select('angkatan')
+            ->distinct()
+            ->orderBy('angkatan', 'desc')
+            ->pluck('angkatan');
+
+        return view('pengguna.user.data', compact('users', 'fakultas', 'angkatanList'));
     }
 
     public function store(Request $request)
