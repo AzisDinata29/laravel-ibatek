@@ -4,9 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Fakultas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class FakultasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (Auth::user()->role == 'admin') {
+                return $next($request);
+            }
+            return Redirect::route('login');
+        });
+    }
     /**
      * Display a listing of the resource.
      */

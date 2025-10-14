@@ -8,9 +8,21 @@ use App\Models\TipeAktifitasMahasiswa;
 use App\Models\AktifitasMahasiswa;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Organization;
+use Illuminate\Support\Facades\Redirect;
 
 class VerifikasiAktifitasMahasiswaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (Auth::user()->role == 'admin') {
+                return $next($request);
+            }
+            return Redirect::route('login');
+        });
+    }
+
     public function index(Request $request)
     {
         $query = AktifitasMahasiswa::query();

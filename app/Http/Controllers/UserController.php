@@ -8,9 +8,22 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Fakultas;
 use App\Models\Prodi;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (Auth::user()->role == 'admin') {
+                return $next($request);
+            }
+            return Redirect::route('login');
+        });
+    }
+
     public function index(Request $request)
     {
         $query = User::with(['fakultas_detail', 'prodi_detail'])

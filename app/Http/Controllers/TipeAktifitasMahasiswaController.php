@@ -4,9 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TipeAktifitasMahasiswa;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class TipeAktifitasMahasiswaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (Auth::user()->role == 'admin') {
+                return $next($request);
+            }
+            return Redirect::route('login');
+        });
+    }
     /**
      * Display a listing of the resource.
      */

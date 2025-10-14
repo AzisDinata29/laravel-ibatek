@@ -4,9 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class OrganizationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (Auth::user()->role == 'admin') {
+                return $next($request);
+            }
+            return Redirect::route('login');
+        });
+    }
+
     public function index()
     {
         $organizations = Organization::all();

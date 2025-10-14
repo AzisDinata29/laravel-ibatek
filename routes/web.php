@@ -16,6 +16,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AktifitasMahasiswaController;
 use App\Http\Controllers\UserAktifitasMahasiswaController;
 use App\Http\Controllers\VerifikasiAktifitasMahasiswaController;
+use App\Http\Controllers\UserPrintAktifitasMahasiswaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -90,80 +91,7 @@ Route::middleware('auth')->group(function () {
     )->name('aktifitas-mahasiswa.cetak');
     Route::resource('aktifitas-mahasiswa', AktifitasMahasiswaController::class)->names('aktifitas-mahasiswa');
     Route::resource('user-aktifitas-mahasiswa', UserAktifitasMahasiswaController::class)->names('user-aktifitas-mahasiswa');
+    Route::resource('user/aktifitas-mahasiswa', UserPrintAktifitasMahasiswaController::class)->names('user-detail');
 });
-
-
-
-
-Route::resource('kepanitiaan', KepaniitiaanController::class)->names([
-    'index' => 'kepanitiaan',
-    'create' => 'kepanitiaan.create',
-    'store' => 'kepanitiaan.store',
-    'show' => 'kepanitiaan.show',
-    'edit' => 'kepanitiaan.edit',
-    'update' => 'kepanitiaan.update',
-    'destroy' => 'kepanitiaan.destroy'
-]);
-
-Route::resource('magang', MagangController::class)->names([
-    'index' => 'magang',
-    'create' => 'magang.create',
-    'store' => 'magang.store',
-    'show' => 'magang.show',
-    'edit' => 'magang.edit',
-    'update' => 'magang.update',
-    'destroy' => 'magang.destroy'
-]);
-
-Route::resource('tridharma', TridharmaController::class)->names([
-    'index' => 'tridharma',
-    'create' => 'tridharma.create',
-    'store' => 'tridharma.store',
-    'show' => 'tridharma.show',
-    'edit' => 'tridharma.edit',
-    'update' => 'tridharma.update',
-    'destroy' => 'tridharma.destroy'
-]);
-
-Route::resource('lomba', LombaController::class)->names([
-    'index' => 'lomba',
-    'create' => 'lomba.create',
-    'store' => 'lomba.store',
-    'show' => 'lomba.show',
-    'edit' => 'lomba.edit',
-    'update' => 'lomba.update',
-    'destroy' => 'lomba.destroy'
-]);
-
-Route::resource('ukm', UkmController::class)->names([
-    'index' => 'ukm.index',
-    'create' => 'ukm.create',
-    'store' => 'ukm.store',
-    'show' => 'ukm.show',
-    'edit' => 'ukm.edit',
-    'update' => 'ukm.update',
-    'destroy' => 'ukm.destroy',
-]);
-
-
-
-Route::get('/cetak', [\App\Http\Controllers\RelatedRecordController::class, 'index'])->name('cetak');
-
-Route::resource('related-records', \App\Http\Controllers\RelatedRecordController::class)->names([
-    'index' => 'related-records.index',
-    'create' => 'related-records.create',
-    'store' => 'related-records.store',
-    'show' => 'related-records.show',
-    'edit' => 'related-records.edit',
-    'update' => 'related-records.update',
-    'destroy' => 'related-records.destroy'
-]);
-
-Route::post('related-records/{id}/verify', [\App\Http\Controllers\RelatedRecordController::class, 'verify'])->name('related-records.verify');
-
-Route::get('/kesimpulan', function () {
-    return view('kesimpulan');
-})->name('kesimpulan');
-
 
 require __DIR__ . '/auth.php';

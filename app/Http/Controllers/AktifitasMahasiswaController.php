@@ -10,9 +10,21 @@ use App\Models\Fakultas;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redirect;
 
 class AktifitasMahasiswaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (Auth::user()->role == 'admin') {
+                return $next($request);
+            }
+            return Redirect::route('login');
+        });
+    }
+
     public function index(Request $request)
     {
         $query = User::with(['fakultas_detail', 'prodi_detail'])
@@ -76,8 +88,6 @@ class AktifitasMahasiswaController extends Controller
         $user = User::with(['fakultas_detail', 'prodi_detail'])->findOrFail($id);
         $tipeAktifitas = TipeAktifitasMahasiswa::orderBy('name')->get();
 
-        // NOTE: samakan status di DB. Kamu pakai 'Terima' di query,
-        // tapi judul tabel tulis "Diterima". Pilih salah satu, mis. 'Terima'.
         $statusDiterima = 'Terima';
 
         $base = AktifitasMahasiswa::where('user_id', $user->id)
@@ -90,10 +100,8 @@ class AktifitasMahasiswaController extends Controller
             $base->where('tipe_aktifitas_mahasiswa_id', $request->tipe_id);
         }
 
-        // Ambil semua baris yang lolos filter (nanti kita group di memory)
         $rows = $base->orderBy('tanggal_mulai')->get();
 
-        // Tentukan semester mana yang ditampilkan
         $visibleSemesters = $request->filled('semester')
             ? [(int) $request->semester]
             : range(1, 8);
@@ -116,7 +124,7 @@ class AktifitasMahasiswaController extends Controller
         return view('master.aktifitas-mahasiswa.detail', compact(
             'user',
             'tipeAktifitas',
-            'rows',          // kalau masih mau dipakai di tempat lain
+            'rows',
             'bySemester',
             'visibleSemesters'
         ));
