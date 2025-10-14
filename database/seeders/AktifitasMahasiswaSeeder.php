@@ -9,16 +9,16 @@ use Carbon\Carbon;
 
 class AktifitasMahasiswaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('aktifitas_mahasiswas')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+  /**
+   * Run the database seeds.
+   */
+  public function run(): void
+  {
+    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+    DB::table('aktifitas_mahasiswas')->truncate();
+    DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $json = <<<'JSON'
+    $json = <<<'JSON'
 [
       {
         "id": 41,
@@ -32,7 +32,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/iirme7f6bc1wnqBWIfD16OVt4XrovmUHRaVb5zJV.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:08:53.000000Z",
@@ -50,7 +49,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "24",
         "file": "aktifitas/9ASEWZpkuWth8i9R5ubOOmLAaGfQUxPsiMSwXPoe.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:08:30.000000Z",
@@ -68,7 +66,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "25",
         "file": "aktifitas/mHS5r7tiiTA8dipI3f513i4njIWFc0pP9lQmRzpW.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:07:54.000000Z",
@@ -86,7 +83,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/FLzoZIx8cudAdfAxv9hYPARbzlV0F1xvNK1gyZ0g.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:07:30.000000Z",
@@ -104,7 +100,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/tnUicuZ1drUU87WLFy0w6I1BZBACMDhS9LI9JWti.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:09:18.000000Z",
@@ -122,7 +117,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/IuhEdc92IIKWGNZ7rVbh3XatvDmp3zUpC1ocqujC.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:07:08.000000Z",
@@ -140,7 +134,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "3",
         "file": "aktifitas/q3ZX9Pm36YaLHw0lSeKHPlm77FJY9lmckygKSrob.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:06:38.000000Z",
@@ -158,7 +151,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "48",
         "file": "aktifitas/iTiuJtVz1N55CXE2OQmDrWS1Fk2ZdHRFwLtPTZCX.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:04:33.000000Z",
@@ -176,7 +168,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "24",
         "file": null,
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:05:47.000000Z",
@@ -194,7 +185,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/JG4z9ARAlStG9tP0mknCKrSb1kt5PitA8rD4SBar.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:05:02.000000Z",
@@ -212,7 +202,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "48",
         "file": "aktifitas/5WEmo1Kygvd86kLoLkjkzuMM5Nk3Db9uG3Tp3ONw.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:04:03.000000Z",
@@ -230,7 +219,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "15",
         "file": "aktifitas/MkRdXo1wsoXazfcXvjssIJDlGG8CBijJpstEWOuy.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:03:31.000000Z",
@@ -248,7 +236,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "20",
         "file": "aktifitas/8yVKDzmIUPNcAxWkLA0XR2HunmIUSehlkkBbq709.png",
         "keterangan": "-",
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:02:56.000000Z",
@@ -266,7 +253,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/DGsIX2MVjB0wiMotlTLw6x6EKGWVeNWSUd8Winsw.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:01:51.000000Z",
@@ -284,7 +270,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "10",
         "file": "aktifitas/osaj7ruW7UWXGMPuYcCWeU7iMNvaWAOEbUpCZx6Z.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:56:40.000000Z",
@@ -302,7 +287,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "10",
         "file": null,
         "keterangan": "Peserta",
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:00:25.000000Z",
@@ -320,7 +304,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "234",
         "file": "aktifitas/7WGJaT9RHupxvdEeEk8WC1EN2jJKwx6ZTQtKHpE8.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:58:36.000000Z",
@@ -338,7 +321,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "20",
         "file": "aktifitas/vZNsGOUljIAGCNhPcgbFKvmhq6EVeDGOrAM5epoL.png",
         "keterangan": "PDD",
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:01:11.000000Z",
@@ -356,7 +338,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "20",
         "file": "aktifitas/LeU3re3zigrdI6fJng28DIr5UilqrnA9mkVgOVny.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:54:18.000000Z",
@@ -374,7 +355,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/XnHoPsW1xfxYztvKI90LlBHwVulqyWukhDmbbbYG.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:51:22.000000Z",
@@ -392,7 +372,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "90",
         "file": "aktifitas/Vpmfqnmd2Jn9Kij1hYMx1IqVjUaCHEMYdHbQc9aL.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:52:39.000000Z",
@@ -410,7 +389,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "20",
         "file": "aktifitas/EsG09ahhfDhy0QtkILQtnZAReaIc4FG9PyWLlpBN.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:53:25.000000Z",
@@ -428,7 +406,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "5",
         "file": "aktifitas/gGGw7icsTDcNqyftITApjaLxUsYeY6CEnWy7cGfE.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:52:11.000000Z",
@@ -446,7 +423,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "120",
         "file": "aktifitas/pz8Dp7o0ASHpfNvzismgUtG66gGZsVrUSQZ27TKs.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:49:44.000000Z",
@@ -464,7 +440,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "10",
         "file": "aktifitas/WPZ967uUqlPeLOnBZpN8sCkz3YOewLqxAalNC0EV.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:48:54.000000Z",
@@ -482,7 +457,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/hiLAEILRa9qit42v3SPTWa0OROzfgHAvlLVxqf0e.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:50:13.000000Z",
@@ -500,7 +474,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "42",
         "file": "aktifitas/eBEnrNPSgScqyWvwjpIxZf2lUsEKFuBm6YfzjOUX.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:47:30.000000Z",
@@ -518,7 +491,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "20",
         "file": "aktifitas/Uomq1DmWugEsfMJiDLA1mpu05fiK1k1GzBHzAMHL.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:44:20.000000Z",
@@ -536,7 +508,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "48",
         "file": "aktifitas/XhLZdzNB4hfufnrS1T6NbOQ4CVJfCEmJhzPRQ0cr.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:50:52.000000Z",
@@ -554,7 +525,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "24",
         "file": "aktifitas/xFT4qOviuN3io3umPk3SerqNRAycz6IFOhIKcp4R.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:48:14.000000Z",
@@ -572,7 +542,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "2",
         "file": "aktifitas/uKC1PbHtKSLpTW6CnhMQpCStBfW5bjRyI5L51zDU.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:42:50.000000Z",
@@ -590,7 +559,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "90",
         "file": "aktifitas/mNnrCDRnlaLZ37umATIPi4uZarp8ftIEj2eHxW9r.png",
         "keterangan": "anggota teknisi",
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:42:10.000000Z",
@@ -608,7 +576,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "5",
         "file": "aktifitas/yy7QHFWOgMtfbxQVeHAV1GAL6PKVSYSrGapNOe2s.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:40:39.000000Z",
@@ -626,7 +593,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "24",
         "file": "aktifitas/qntc5JS4R2Kfi741w6rAUoZdLIhcfxJwF9NFPjYs.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:38:50.000000Z",
@@ -644,7 +610,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "15",
         "file": "aktifitas/lhzFs95ZYzzPmhUBZ4zqey6AetiC6GhIpzIbl8Bg.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:43:27.000000Z",
@@ -662,7 +627,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/mrGEEnbjoHDLfiwAjGnV2shW1NwVekvXOae853xs.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:37:33.000000Z",
@@ -680,7 +644,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "8",
         "file": "aktifitas/taz6qVAL8QPp4Wvtk64V2iPDLjoBxWselRvOHIIl.png",
         "keterangan": "Anggota PDD",
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:28:54.000000Z",
@@ -698,7 +661,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "5",
         "file": "aktifitas/WVoNslSkAzkuXqmJP8U1HKP7v51cSQavkRq2AJbf.png",
         "keterangan": "-",
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:35:22.000000Z",
@@ -716,7 +678,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": null,
         "file": "aktifitas/Lq551ZrvEhS7TCBSl8CF2mo995QxpohRTLH2l2Xk.png",
         "keterangan": "Anggota",
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:34:21.000000Z",
@@ -734,7 +695,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/DEmYr7GqxnAqYBBfpJtnafKNA8v0lYKgURbZXbjD.png",
         "keterangan": null,
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:33:31.000000Z",
@@ -752,7 +712,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "10",
         "file": "aktifitas/Ua4VgaR0ehIkntgBlE9GNm1A2ulAJItvSqUoF8q2.png",
         "keterangan": "PJ PDD",
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T07:31:44.000000Z",
@@ -770,7 +729,6 @@ class AktifitasMahasiswaSeeder extends Seeder
         "durasi": "12",
         "file": "aktifitas/jw5SY0MA88v0NphLY5M0qPeHAcfc8otUN1jTXQZi.png",
         "keterangan": "Peserta",
-        "status": "Terima",
         "validasi_user_id": null,
         "keterangan_validasi": null,
         "created_at": "2025-10-12T08:09:46.000000Z",
@@ -779,47 +737,47 @@ class AktifitasMahasiswaSeeder extends Seeder
 ]
 JSON;
 
-        $rows = json_decode($json, true) ?? [];
+    $rows = json_decode($json, true) ?? [];
 
-        $rows = array_map(function ($r) {
-            // set status to Terima
-            $r['status'] = 'Terima';
+    $rows = array_map(function ($r) {
+      // set status to Terima
+      $r['status'] = 'Menunggu Validasi';
 
-            if (!empty($r['created_at'])) {
-                $r['created_at'] = Carbon::parse($r['created_at'])->format('Y-m-d H:i:s');
-            }
-            if (!empty($r['updated_at'])) {
-                $r['updated_at'] = Carbon::parse($r['updated_at'])->format('Y-m-d H:i:s');
-            }
+      if (!empty($r['created_at'])) {
+        $r['created_at'] = Carbon::parse($r['created_at'])->format('Y-m-d H:i:s');
+      }
+      if (!empty($r['updated_at'])) {
+        $r['updated_at'] = Carbon::parse($r['updated_at'])->format('Y-m-d H:i:s');
+      }
 
-            $keys = [
-                'id',
-                'user_id',
-                'tipe_aktifitas_mahasiswa_id',
-                'label',
-                'label_detail',
-                'tanggal_mulai',
-                'tanggal_selesai',
-                'semester',
-                'durasi',
-                'file',
-                'keterangan',
-                'status',
-                'validasi_user_id',
-                'keterangan_validasi',
-                'created_at',
-                'updated_at'
-            ];
-            foreach ($keys as $k) {
-                if (!array_key_exists($k, $r)) {
-                    $r[$k] = null;
-                }
-            }
-            return $r;
-        }, $rows);
-
-        if (!empty($rows)) {
-            DB::table('aktifitas_mahasiswas')->insert($rows);
+      $keys = [
+        'id',
+        'user_id',
+        'tipe_aktifitas_mahasiswa_id',
+        'label',
+        'label_detail',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'semester',
+        'durasi',
+        'file',
+        'keterangan',
+        'status',
+        'validasi_user_id',
+        'keterangan_validasi',
+        'created_at',
+        'updated_at'
+      ];
+      foreach ($keys as $k) {
+        if (!array_key_exists($k, $r)) {
+          $r[$k] = null;
         }
+      }
+      return $r;
+    }, $rows);
+
+    if (!empty($rows)) {
+      DB::table('aktifitas_mahasiswas')->insert($rows);
     }
+  }
 }
