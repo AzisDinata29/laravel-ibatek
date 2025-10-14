@@ -35,15 +35,15 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <label class="form-label mb-1">Angkatan</label>
-                                <select name="angkatan" id="filterAngkatan" class="form-select form-select-sm rounded-pill"
-                                    required>
-                                    <option value="" selected disabled>-- Pilih Angkatan --</option>
-                                    @foreach ($angkatanList ?? [] as $angk)
-                                        <option value="{{ $angk }}"
-                                            {{ request('angkatan') == $angk ? 'selected' : '' }}>
-                                            {{ $angk }}
-                                        </option>
-                                    @endforeach
+                                @php $current = now()->year; @endphp
+                                <select name="angkatan" class="form-select rounded-pill" required>
+                                    <option value="" {{ request('angkatan') == '' ? 'selected' : '' }}>Pilih Tahun
+                                    </option>
+                                    @for ($y = $current; $y >= $current - 10; $y--)
+                                        <option value="{{ $y }}"
+                                            {{ request('angkatan') == $y ? 'selected' : '' }}>
+                                            {{ $y }}</option>
+                                    @endfor
                                 </select>
                             </div>
                             <div class="col-12 col-md-1 d-flex align-items-end gap-2">

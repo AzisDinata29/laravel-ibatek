@@ -57,4 +57,10 @@
               <span>Aktifitas Mahasiswa</span>
           </a>
       </li>
+      <li class="sidebar-item {{ Route::is('laporan.*') ? 'active' : '' }}">
+          <a href="{{ route('laporan.index') }}" class="sidebar-link">
+              <i class="bi bi-file-arrow-up-fill"></i>
+              <span>Laporan</span>
+          </a>
+      </li>
   @endif
