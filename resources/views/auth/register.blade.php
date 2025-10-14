@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register || IBATEK</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="shortcut icon" href="{{ asset('build/assets/images/logo/ibtk.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets-new/images/logo/ibtk.png') }}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -141,7 +141,7 @@
         <!-- Header dengan logo -->
         <div class="orange-bg py-6 px-6 text-center">
             <div class="logo-container">
-                <img src="{{ asset('build/assets/images/logo/ibtk.png') }}" alt="Logo">
+                <img src="{{ asset('assets-new/images/logo/ibtk.png') }}" alt="Logo">
             </div>
             <h2 class="text-white text-2xl font-bold mt-4">Buat Akun Baru</h2>
             <p class="text-orange-100 mt-2">Isi data diri Anda untuk mendaftar</p>

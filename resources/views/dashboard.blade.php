@@ -267,7 +267,7 @@
         </div>
     </section>
     @push('scripts')
-        <script src="{{ asset('build/assets/vendors/apexcharts/apexcharts.js') }}"></script>
-        <script src="{{ asset('build/assets/js/pages/dashboard.js') }}"></script>
+        <script src="{{ asset('assets-new/vendors/apexcharts/apexcharts.js') }}"></script>
+        <script src="{{ asset('assets-new/js/pages/dashboard.js') }}"></script>
     @endpush
 @endsection

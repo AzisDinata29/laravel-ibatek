@@ -8,13 +8,13 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('build/assets/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/vendors/iconly/bold.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets-new/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets-new/vendors/iconly/bold.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('build/assets/vendors/perfect-scrollbar/perfect-scrollbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/css/app.css') }}">
-    <link rel="shortcut icon" href="{{ asset('build/assets/images/logo/ibtk.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('assets-new/vendors/perfect-scrollbar/perfect-scrollbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets-new/vendors/bootstrap-icons/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets-new/css/app.css') }}">
+    <link rel="shortcut icon" href="{{ asset('assets-new/images/logo/ibtk.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
     @stack('styles')
 </head>
@@ -35,9 +35,9 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ asset('build/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ asset('build/assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('build/assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets-new/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets-new/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets-new/js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
