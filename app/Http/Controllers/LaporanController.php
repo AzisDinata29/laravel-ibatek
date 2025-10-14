@@ -9,9 +9,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\File;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class LaporanController extends Controller
+class LaporanController extends Controller  implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            'adminCheck',
+        ];
+    }
     public function index(Request $request)
     {
         $tipe = TipeAktifitasMahasiswa::all();

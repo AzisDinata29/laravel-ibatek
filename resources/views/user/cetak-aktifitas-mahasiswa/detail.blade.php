@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="rounded-4 p-3 mb-4">
-                <form method="GET" action="{{ route('aktifitas-mahasiswa.cetak', $user->id) }}" class="row g-3">
+                <form method="GET" action="{{ route('user-detail.cetak', $user->id) }}" class="row g-3">
                     <div class="col-12 col-md-4">
                         <label class="form-label mb-1">Semester</label>
                         <select name="semester" id="filterSemester" class="form-select form-select-sm rounded-pill">
@@ -72,7 +72,7 @@
                 </form>
             </div>
             <div class="rounded-4 p-3 mb-4">
-                <form method="GET" action="{{ route('aktifitas-mahasiswa.show', $user->id) }}" class="row g-3">
+                <form method="GET" action="{{ route('user-detail.index', $user->id) }}" class="row g-3">
                     <div class="col-12 col-md-4">
                         <label class="form-label mb-1">Semester</label>
                         <select name="semester" id="filterSemester" class="form-select form-select-sm rounded-pill">

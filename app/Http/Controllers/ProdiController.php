@@ -5,16 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Fakultas;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Routing\Controllers\HasMiddleware;
 
-class ProdiController extends Controller implements HasMiddleware
+class ProdiController extends Controller
 {
     public static function middleware(): array
     {
         return [
-            'adminCheck',
+            'adminCheck' => ['except' => ['byFakultas']],
         ];
     }
     /**
@@ -23,14 +20,11 @@ class ProdiController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         $query = Prodi::with('fakultas');
-
-
         if ($request->filled('fakultas')) {
             $query->whereHas('fakultas', function ($q) use ($request) {
                 $q->where('name', $request->fakultas);
             });
         }
-
         $prodis = $query->get();
 
         return view('master.prodi.index', compact('prodis'));

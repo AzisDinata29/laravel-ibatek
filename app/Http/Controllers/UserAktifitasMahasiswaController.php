@@ -66,9 +66,9 @@ class UserAktifitasMahasiswaController extends Controller implements HasMiddlewa
             'tanggal_mulai'   => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'semester'        => 'required|in:1,2,3,4,5,6,7,8',
-            'durasi'          => 'nullable|string|max:50',
-            'file'            => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
-            'keterangan'      => 'nullable|string|max:2000',
+            'durasi'          => 'required|string|max:50',
+            'file'            => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
+            'keterangan'      => 'required|string|max:2000',
         ]);
 
         try {
@@ -132,9 +132,9 @@ class UserAktifitasMahasiswaController extends Controller implements HasMiddlewa
             'tanggal_mulai'   => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'semester'        => 'required|in:1,2,3,4,5,6,7,8',
-            'durasi'          => 'nullable|string|max:50',
+            'durasi'          => 'required|string|max:50',
             'file'            => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
-            'keterangan'      => 'nullable|string|max:2000',
+            'keterangan'      => 'required|string|max:2000',
         ]);
 
         try {
@@ -155,6 +155,7 @@ class UserAktifitasMahasiswaController extends Controller implements HasMiddlewa
                 'semester'        => (string) $data['semester'],
                 'durasi'          => $data['durasi'],
                 'file'            => $data['file'],
+                'status'            => 'Menunggu Validasi',
                 'keterangan'      => $data['keterangan'] ?? null,
             ]);
 

@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
             'jenis_kelamin' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'profile_photo' => ['nullable', 'image', 'max:2048'], // max 2MB
+            'profile_photo' => ['required', 'image', 'max:2048'],
         ]);
 
         $profilePhotoPath = null;

@@ -24,8 +24,6 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-
-                    {{-- Validasi global (list semua error sekaligus) --}}
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <div class="fw-semibold mb-1">Periksa kembali isian kamu:</div>
@@ -133,7 +131,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="file" class="form-label">File Pendukung (opsional)</label>
-                                        <input type="file" class="form-control need-tipe" id="file"
+                                        <input type="file" required class="form-control need-tipe" id="file"
                                             name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" {{ $disabledAttr }}>
                                         <small class="text-muted">PDF/JPG/PNG/DOC, max 2MB.</small>
                                         @error('file')

@@ -78,7 +78,7 @@
                             style="width:100%">
                             <thead class="table-light">
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Status</th>
                                     <th>Kegiatan</th>
                                     <th>Durasi</th>
@@ -153,7 +153,7 @@
                                                     </button>
                                                 </form>
                                             @else
-                                                <button class="btn btn-sm btn-secondary" disabled>Terkunci</button>
+                                                <button class="btn btn-sm btn-success" disabled>Valid</button>
                                             @endif
                                         </td>
                                     </tr>

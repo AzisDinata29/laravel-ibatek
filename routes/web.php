@@ -89,6 +89,11 @@ Route::middleware('auth')->group(function () {
     )->name('aktifitas-mahasiswa.cetak');
     Route::resource('aktifitas-mahasiswa', AktifitasMahasiswaController::class)->names('aktifitas-mahasiswa');
     Route::resource('user-aktifitas-mahasiswa', UserAktifitasMahasiswaController::class)->names('user-aktifitas-mahasiswa');
+
+    Route::get(
+        '/user/aktifitas-mahasiswa/{id}/cetak',
+        [UserPrintAktifitasMahasiswaController::class, 'cetak']
+    )->name('user-detail.cetak');
     Route::resource('user/aktifitas-mahasiswa', UserPrintAktifitasMahasiswaController::class)->names('user-detail');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');

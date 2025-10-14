@@ -169,7 +169,7 @@ class AktifitasMahasiswaController extends Controller implements HasMiddleware
                 $tglSelesai = Carbon::parse($r->tanggal_selesai)->format('d/m/Y');
 
                 return [
-                    'jenis' => $r->label,
+                    'jenis' => $r->label . ' - ' . $r->label_detail,
                     'tipe'  => $r->tipe->name ?? '-',
                     'tgl'   => ($r->tanggal_mulai === $r->tanggal_selesai) ? $tglMulai : $tglMulai . ' - ' . $tglSelesai,
                     'waktu' => $r->durasi ? $r->durasi . ' jam' : '',

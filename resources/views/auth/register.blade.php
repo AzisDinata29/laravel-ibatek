@@ -306,14 +306,13 @@
                     @endif
                 </div>
 
-                <!-- Profile Photo -->
                 <div class="mb-6">
                     <label for="profile_photo" class="block text-gray-700 text-sm font-bold mb-2">
                         <i class="fas fa-image text-orange-500 mr-1"></i> Foto Profil
                     </label>
                     <input id="profile_photo"
                         class="input-focus shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        type="file" name="profile_photo" accept="image/*">
+                        type="file" name="profile_photo" accept="image/*" required>
                     @if ($errors->has('profile_photo'))
                         <p class="text-red-500 text-xs italic mt-2">{{ $errors->first('profile_photo') }}</p>
                     @endif

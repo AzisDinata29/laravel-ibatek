@@ -28,6 +28,12 @@
                     <div class="rounded-4 p-3 mb-4">
                         <form method="GET" action="{{ route('verifikasi-aktifitas-mahasiswa.index') }}" class="row g-3">
                             <div class="col-12 col-md-3">
+                                <label class="form-label mb-1">Nama Mahasiswa</label>
+                                <input type="text" name="name" class="form-control form-control-sm rounded-pill"
+                                    placeholder="Cari nama mahasiswa..." value="{{ request('name') }}">
+                            </div>
+
+                            <div class="col-12 col-md-2">
                                 <label class="form-label mb-1">Semester</label>
                                 <select name="semester" id="filterSemester" class="form-select form-select-sm rounded-pill">
                                     <option value="">Semua</option>
@@ -39,8 +45,9 @@
                                     @endfor
                                 </select>
                             </div>
-                            <div class="col-12 col-md-4">
-                                <label class="form-label mb-1">Tipe</label>
+
+                            <div class="col-12 col-md-3">
+                                <label class="form-label mb-1">Tipe Aktivitas</label>
                                 <select name="tipe" id="filterTipe" class="form-select form-select-sm rounded-pill">
                                     <option value="">Semua</option>
                                     @foreach ($tipe ?? [] as $t)
@@ -51,26 +58,29 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-12 col-md-3">
+
+                            <div class="col-12 col-md-2">
                                 <label class="form-label mb-1">Angkatan</label>
                                 @php $current = now()->year; @endphp
-                                <select name="angkatan" class="form-select form-select-sm rounded-pill" required>
-                                    <option value="" {{ request('angkatan') == '' ? 'selected' : '' }}>Pilih Tahun
-                                    </option>
+                                <select name="angkatan" class="form-select form-select-sm rounded-pill">
+                                    <option value="">Semua</option>
                                     @for ($y = $current; $y >= $current - 10; $y--)
                                         <option value="{{ $y }}"
                                             {{ request('angkatan') == $y ? 'selected' : '' }}>
-                                            {{ $y }}</option>
+                                            {{ $y }}
+                                        </option>
                                     @endfor
                                 </select>
                             </div>
+
                             <div class="col-12 col-md-2 d-flex align-items-end gap-2">
                                 <button type="submit" class="btn btn-primary w-100 btn-sm rounded-pill">Filter</button>
-                                <a href="{{ route('user-aktifitas-mahasiswa.index') }}"
+                                <a href="{{ route('verifikasi-aktifitas-mahasiswa.index') }}"
                                     class="btn btn-outline-secondary w-100 btn-sm rounded-pill">Reset</a>
                             </div>
                         </form>
                     </div>
+
                     <div class="table-responsive">
                         <table id="usersTable" class="table table-striped table-hover align-middle nowrap"
                             style="width:100%">

@@ -34,6 +34,12 @@ class VerifikasiAktifitasMahasiswaController extends Controller implements HasMi
             });
         }
 
+        if ($request->filled('name')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . trim($request->name) . '%');
+            });
+        }
+
         if ($request->filled('angkatan')) {
             $query->whereHas('user', function ($q) use ($request) {
                 $q->where('role', 'user')
