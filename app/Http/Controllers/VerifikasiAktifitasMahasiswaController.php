@@ -9,18 +9,15 @@ use App\Models\AktifitasMahasiswa;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class VerifikasiAktifitasMahasiswaController extends Controller
+class VerifikasiAktifitasMahasiswaController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('auth');
-        $this->middleware(function ($request, $next) {
-            if (Auth::user()->role == 'admin') {
-                return $next($request);
-            }
-            return Redirect::route('login');
-        });
+        return [
+            'adminCheck',
+        ];
     }
 
     public function index(Request $request)

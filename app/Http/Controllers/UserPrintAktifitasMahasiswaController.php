@@ -7,19 +7,15 @@ use App\Models\User;
 use App\Models\TipeAktifitasMahasiswa;
 use App\Models\AktifitasMahasiswa;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class UserPrintAktifitasMahasiswaController extends Controller
+class UserPrintAktifitasMahasiswaController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('auth');
-        $this->middleware(function ($request, $next) {
-            if (Auth::user()->role == 'user') {
-                return $next($request);
-            }
-            return Redirect::route('login');
-        });
+        return [
+            'userCheck',
+        ];
     }
     /**
      * Display a listing of the resource.

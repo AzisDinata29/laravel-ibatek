@@ -6,18 +6,15 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class OrganizationController extends Controller
+class OrganizationController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('auth');
-        $this->middleware(function ($request, $next) {
-            if (Auth::user()->role == 'admin') {
-                return $next($request);
-            }
-            return Redirect::route('login');
-        });
+        return [
+            'adminCheck',
+        ];
     }
 
     public function index()

@@ -12,15 +12,6 @@ use App\Models\Fakultas;
 
 class ProfileController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!Auth::check()) {
-                return Redirect::route('login');
-            }
-            return $next($request);
-        });
-    }
     /**
      * Display the user's profile form.
      */
