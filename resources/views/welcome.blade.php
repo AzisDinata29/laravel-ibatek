@@ -23,7 +23,7 @@
     <!-- Bootstrap & Theme -->
     <link href="vendors/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/css/theme.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -236,6 +236,46 @@
                 transform: translateX(-100%);
             }
         }
+
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            /* tinggi default mobile */
+            background: #fff;
+        }
+
+        @media (min-width: 768px) {
+            .hero-slider {
+                height: 420px;
+            }
+
+            /* tinggi tablet/desktop */
+        }
+
+        .hero-slider .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* biar gambar tidak terpotong */
+            border-radius: 1rem;
+        }
+
+        /* Aksen warna brand pada kontrol */
+        .hero-swiper .swiper-button-next,
+        .hero-swiper .swiper-button-prev {
+            color: #ff9900;
+        }
+
+        .hero-swiper .swiper-pagination-bullet-active {
+            background: #ff9900;
+        }
     </style>
 </head>
 
@@ -257,22 +297,51 @@
 
         <!-- Hero -->
         <section class="mt-6 fade-in">
-            <div class="container">
+            <div class="container position-relative">
                 <div class="floating-circle circle-1"></div>
                 <div class="floating-circle circle-2"></div>
                 <div class="floating-circle circle-3"></div>
+
                 <div class="row align-items-center text-center text-md-start">
+                    <!-- Kolom kiri: teks tetap -->
                     <div class="col-md-6">
-                        <h1 class="display-6 fw-bold">Sistem Kendali Mahasiswa <span id="typing-text"></span></h1>
-                        <p class="fs-2 mt-3">Platform terintegrasi untuk memantau, mengelola, dan mengevaluasi aktivitas
-                            mahasiswa penerima beasiswa IBATEK.</p>
+                        <h1 class="display-6 fw-bold">
+                            Sistem Kendali Mahasiswa <span id="typing-text"></span>
+                        </h1>
+                        <p class="fs-2 mt-3">
+                            Platform terintegrasi untuk memantau, mengelola, dan mengevaluasi aktivitas
+                            mahasiswa penerima beasiswa IBATEK.
+                        </p>
                         <button class="btn btn-secondary mt-3" onclick="window.location.href='/login'">Masuk ke
                             Sistem</button>
                         <button class="btn btn-secondary mt-3" onclick="window.location.href='/register'">Daftar
                             Sekarang</button>
                     </div>
+
+                    <!-- Kolom kanan: slider gambar -->
                     <div class="col-md-6 mt-4 mt-md-0">
-                        <img class="img-fluid" src="assets/img/gallery/dashboard.png" alt="Dashboard" />
+                        <div class="hero-slider swiper hero-swiper rounded-4 shadow-sm">
+                            <div class="swiper-wrapper">
+                                <!-- Slide 1 -->
+                                <div class="swiper-slide">
+                                    <img src="{{ asset('1.jpeg') }}" alt="Dashboard IBATEK" />
+                                </div>
+                                <!-- Slide 2 -->
+                                <div class="swiper-slide">
+                                    <img src="{{ asset('2.jpeg') }}" alt="Logo" />
+                                </div>
+                                <!-- Slide 3 -->
+                                <div class="swiper-slide">
+                                    <img src="{{ asset('3.jpeg') }}" alt="Manajemen Profil" />
+                                </div>
+                                <!-- Tambah slide sesuka hati -->
+                            </div>
+
+                            <!-- Pagination & Arrows -->
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -443,7 +512,7 @@
         <script src="vendors/is/is.min.js"></script>
         <script src="vendors/swiper/swiper-bundle.min.js"></script>
         <script src="assets/js/theme.js"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
         <script>
             // Navbar shrink effect
             window.addEventListener("scroll", function() {
@@ -497,6 +566,29 @@
                 }
 
                 typeText();
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                new Swiper('.hero-swiper', {
+                    loop: true,
+                    speed: 800,
+                    autoplay: {
+                        delay: 3500,
+                        disableOnInteraction: false
+                    },
+                    pagination: {
+                        el: '.hero-swiper .swiper-pagination',
+                        clickable: true
+                    },
+                    navigation: {
+                        nextEl: '.hero-swiper .swiper-button-next',
+                        prevEl: '.hero-swiper .swiper-button-prev'
+                    },
+                    a11y: {
+                        enabled: true
+                    }
+                });
             });
         </script>
 </body>

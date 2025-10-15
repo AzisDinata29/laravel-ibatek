@@ -19,6 +19,7 @@ use App\Http\Controllers\UserAktifitasMahasiswaController;
 use App\Http\Controllers\VerifikasiAktifitasMahasiswaController;
 use App\Http\Controllers\UserPrintAktifitasMahasiswaController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\UserMagangController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -97,6 +98,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('user/aktifitas-mahasiswa', UserPrintAktifitasMahasiswaController::class)->names('user-detail');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
+    Route::resource('magang', MagangController::class)->names('magang');
+    Route::resource('user-magang', UserMagangController::class)->names('user-magang');
 });
 
 require __DIR__ . '/auth.php';

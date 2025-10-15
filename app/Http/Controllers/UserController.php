@@ -45,7 +45,7 @@ class UserController extends Controller implements HasMiddleware
 
         $users = ($request->filled('fakultas_id') && $request->filled('prodi_id') && $request->filled('angkatan'))
             ? $query->get()
-            : collect();
+            :  $query->get();
 
         $fakultas = Fakultas::orderBy('name')->get(['id', 'name']);
 

@@ -11,6 +11,12 @@
             <span>Aktifitas Mahasiswa</span>
         </a>
     </li>
+    <li class="sidebar-item {{ Route::is('user-magang.*') ? 'active' : '' }}">
+        <a href="{{ route('user-magang.index') }}" class="sidebar-link">
+            <i class="bi bi-cloud-arrow-up-fill"></i>
+            <span>Sertifikat Magang</span>
+        </a>
+    </li>
     <li class="sidebar-item {{ Route::is('user-detail.*') ? 'active' : '' }}">
         <a href="{{ route('user-detail.index') }}" class="sidebar-link">
             <i class="bi bi-file-arrow-up-fill"></i>

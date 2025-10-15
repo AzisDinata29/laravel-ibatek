@@ -63,6 +63,11 @@ class User extends Authenticatable
         return $this->belongsTo(Prodi::class, 'prodi', 'id');
     }
 
+    public function magang_detail()
+    {
+        return $this->hasOne(Magang::class);
+    }
+
     public function aktifitas_mahasiswas()
     {
         return $this->hasMany(AktifitasMahasiswa::class);

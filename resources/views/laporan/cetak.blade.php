@@ -180,7 +180,17 @@
             </td>
         </tr>
     </table>
+    @if (!empty($filters['status']) && $filters['status'] === 'Menunggu Validasi')
+        Status : Menunggu Validasi
+    @endif
 
+    @if (!empty($filters['status']) && $filters['status'] === 'Terima')
+        Status : Terima
+    @endif
+
+    @if (!empty($filters['status']) && $filters['status'] === 'Tidak Diterima')
+        Status : Tidak Diterima
+    @endif
     <table>
         <thead>
             <tr>
