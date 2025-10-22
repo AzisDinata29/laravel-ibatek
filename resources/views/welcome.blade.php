@@ -418,10 +418,11 @@
                 </div>
                 <div class="row justify-content-center align-items-center">
                     <div class="col-md-3 col-sm-6 mb-4 logo-item">
-                        <img src="build/assets/images/logo/ibtk.png" alt="Logo IBATEK" class="img-fluid">
+                        <img src="{{ asset('assets-new/images/logo/UTI.png') }}" alt="Logo UTI" class="img-fluid">
                     </div>
                     <div class="col-md-3 col-sm-6 mb-4 logo-item">
-                        <img src="build/assets/images/logo/UTI.png" alt="Logo UTI" class="img-fluid">
+                        <img src="{{ asset('assets-new/images/logo/ibtk.png') }}" alt="Logo IBATEK"
+                            class="img-fluid">
                     </div>
                 </div>
             </div>
