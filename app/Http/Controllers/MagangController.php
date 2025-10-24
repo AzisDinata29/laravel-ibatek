@@ -70,7 +70,7 @@ class MagangController extends Controller implements HasMiddleware
     {
         $validator = Validator::make($request->all(), [
             // 'no_magang' => 'required|string|max:255',
-            'user_id' => 'required|string|max:255|unique:users',
+            'user_id' => 'required|string|max:255|unique:magangs',
         ]);
 
         if ($validator->fails()) {

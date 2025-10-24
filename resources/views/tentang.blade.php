@@ -236,45 +236,25 @@
                 transform: translateX(-100%);
             }
         }
-
-        .hero-slider {
-            position: relative;
-            width: 100%;
-            height: 320px;
-            /* tinggi default mobile */
-            background: #fff;
-        }
-
-        @media (min-width: 768px) {
-            .hero-slider {
-                height: 420px;
-            }
-
-            /* tinggi tablet/desktop */
-        }
-
-        .hero-slider .swiper-slide {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-slider img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            /* biar gambar tidak terpotong */
-            border-radius: 1rem;
-        }
-
-        /* Aksen warna brand pada kontrol */
-        .hero-swiper .swiper-button-next,
-        .hero-swiper .swiper-button-prev {
+    </style>
+    <style>
+        #kontak-lokasi .contact-pill {
+            display: inline-block;
+            padding: .25rem .6rem;
+            border: 1px solid #ff9900;
+            border-radius: 999px;
             color: #ff9900;
+            text-decoration: none;
         }
 
-        .hero-swiper .swiper-pagination-bullet-active {
+        #kontak-lokasi .contact-pill:hover {
             background: #ff9900;
+            color: #fff;
+        }
+
+        #kontak-lokasi .map-wrapper {
+            background: #f8f9fa;
+            min-height: 220px;
         }
     </style>
 </head>
@@ -295,132 +275,71 @@
             </div>
         </nav>
 
-        <!-- Hero -->
-        <section class="mt-6 fade-in">
-            <div class="container position-relative">
-                <div class="floating-circle circle-1"></div>
-                <div class="floating-circle circle-2"></div>
-                <div class="floating-circle circle-3"></div>
-
-                <div class="row align-items-center text-center text-md-start">
-                    <!-- Kolom kiri: teks tetap -->
-                    <div class="col-md-6">
-                        <h1 class="display-6 fw-bold">
-                            Sistem Kendali Mahasiswa <span id="typing-text"></span>
-                        </h1>
-                        <p class="fs-2 mt-3">
-                            Platform terintegrasi untuk memantau, mengelola, dan mengevaluasi aktivitas
-                            mahasiswa penerima beasiswa IBATEK.
-                        </p>
-                        <button class="btn btn-secondary mt-3" onclick="window.location.href='/login'">Masuk ke
-                            Sistem</button>
-                        <button class="btn btn-secondary mt-3" onclick="window.location.href='/register'">Daftar
-                            Sekarang</button>
-                    </div>
-
-                    <!-- Kolom kanan: slider gambar -->
-                    <div class="col-md-6 mt-4 mt-md-0">
-                        <div class="hero-slider swiper hero-swiper rounded-4 shadow-sm">
-                            <div class="swiper-wrapper">
-                                <!-- Slide 1 -->
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('1.jpeg') }}" alt="Dashboard IBATEK" />
-                                </div>
-                                <!-- Slide 2 -->
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('2.jpeg') }}" alt="Logo" />
-                                </div>
-                                <!-- Slide 3 -->
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('4.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('5.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('6.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('7.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('8.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('9.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('10.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('11.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('12.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('13.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('14.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset('15.jpeg') }}" alt="Manajemen Profil" />
-                                </div>
-                                <!-- Tambah slide sesuka hati -->
-                            </div>
-
-                            <!-- Pagination & Arrows -->
-                            <div class="swiper-pagination"></div>
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Features -->
-        <section id="features" class="py-5 bg-light">
+        <section id="kontak-lokasi" class="py-5 bg-white">
             <div class="container">
-                <h1 class="display-8 fw-bold text-center mb-3">Fitur Utama</h1>
-                <p class="fs-2 text-center text-muted mb-5">Fasilitas lengkap untuk mendukung pengelolaan mahasiswa
-                    penerima beasiswa.</p>
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-5">
+                        <div class="d-flex flex-column align-items-start">
+                            <img src="{{ asset('assets-new/images/logo/UTI.png') }}"
+                                alt="Universitas Teknokrat Indonesia" class="mb-3"
+                                style="max-height: 110px; width:auto" />
 
-                <div class="row g-4">
-                    <!-- Feature 1 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 shadow-sm feature-card text-center border-0">
-                            <div class="card-body p-4">
-                                <img src="assets/img/gallery/dashboardicon.png" alt="Dashboard" class="mb-3"
-                                    style="width:60px;height:60px;" />
-                                <h5 class="fw-bold">Dashboard Interaktif</h5>
-                                <p class="text-muted">Pantau data mahasiswa dan kegiatan secara real-time dalam satu
-                                    tampilan ringkas.</p>
+                            <h5 class="fw-bold mb-2">Universitas Teknokrat Indonesia</h5>
+                            <p class="text-muted mb-3">
+                                Jl. ZA. Pagar Alam No. 9–11, Labuhan Ratu, Kec. Kedaton,<br />
+                                Kota Bandar Lampung, Lampung 35132 – Indonesia
+                            </p>
+
+                            <!-- Telepon -->
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-telephone-fill me-2 text-warning"></i>
+                                <div>
+                                    <small class="text-muted d-block">Telp (Hunting)</small>
+                                    <a href="tel:+62721702022" class="fw-semibold contact-pill">0721 - 702022</a>
+                                </div>
+                            </div>
+
+                            <!-- WhatsApp 1 -->
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-whatsapp me-2 text-success"></i>
+                                <div>
+                                    <small class="text-muted d-block">WhatsApp (Chat Only)</small>
+                                    <a class="fw-semibold link-underline link-underline-opacity-0"
+                                        href="https://wa.me/6282279920145?text=Halo%20IBATEK%2C%20saya%20ingin%20bertanya"
+                                        target="_blank" rel="noopener">6282279920145</a>
+                                </div>
+                            </div>
+
+                            <!-- WhatsApp 2 -->
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-whatsapp me-2 text-success"></i>
+                                <div>
+                                    <small class="text-muted d-block">WhatsApp (Chat Only)</small>
+                                    <a class="fw-semibold link-underline link-underline-opacity-0"
+                                        href="https://wa.me/6288268085279?text=Halo%20IBATEK%2C%20saya%20ingin%20bertanya"
+                                        target="_blank" rel="noopener">6288268085279</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Feature 3 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 shadow-sm feature-card text-center border-0">
-                            <div class="card-body p-4">
-                                <img src="assets/img/gallery/statistics.png" alt="Statistik" class="mb-3"
-                                    style="width:60px;height:60px;" />
-                                <h5 class="fw-bold">Statistik & Laporan</h5>
-                                <p class="text-muted">Hasilkan laporan kegiatan Mahasiswa</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Feature 4 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 shadow-sm feature-card text-center border-0">
-                            <div class="card-body p-4">
-                                <img src="assets/img/gallery/profile.png" alt="Profil" class="mb-3"
-                                    style="width:60px;height:60px;" />
-                                <h5 class="fw-bold">Manajemen Profil</h5>
-                                <p class="text-muted">Kelola biodata dan riwayat kegiatan setiap
-                                    mahasiswa dalam satu sistem.</p>
+                    <!-- Kanan: Peta -->
+                    <div class="col-lg-7">
+                        <div class="map-wrapper shadow-sm rounded-3 overflow-hidden">
+                            <iframe title="Peta Universitas Teknokrat Indonesia"
+                                src="https://www.google.com/maps?q=Universitas+Teknokrat+Indonesia&output=embed"
+                                width="100%" height="380" style="border:0" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+
+                        <!-- Kartu mini alamat untuk layar kecil -->
+                        <div class="d-lg-none mt-3 p-3 border rounded-3">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-geo-alt-fill me-2 text-warning"></i>
+                                <span class="small text-muted">Ketuk peta untuk memperbesar di Google Maps</span>
                             </div>
                         </div>
                     </div>
@@ -440,30 +359,17 @@
                         <img src="{{ asset('assets-new/images/logo/UTI.png') }}" alt="Logo UTI" class="img-fluid">
                     </div>
                     <div class="col-md-3 col-sm-6 mb-4 logo-item">
-                        <img src="{{ asset('assets-new/images/logo/ibtk.png') }}" alt="Logo IBATEK"
-                            class="img-fluid">
+                        <img src="{{ asset('assets-new/images/logo/ibtk.png') }}" alt="Logo IBATEK" class="img-fluid">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA -->
-        <section class="bg-primary-gradient text-white text-center fade-in">
-            <div class="container p-5 rounded-3">
-                <h4 class="opacity-75">KIP-K Universitas Teknokrat Indonesia</h4>
-                <h2 class="fw-bold mt-2" style="font-family: Dancing Script", cursive;>"Cerdas, Berprestasi, Dengan
-                    Beasiswa"</h2>
-                <button class="btn btn-light mt-3" onclick="window.location.href='/login'">
-                    Login Sekarang <span class="fas fa-arrow-right"></span>
-                </button>
-            </div>
-        </section>
 
         <!-- Footer -->
         <footer class="bg-light text-dark pt-4 mt-5">
             <div class="container">
                 <div class="row">
-
                     <!-- Logo & Deskripsi -->
                     <div class="col-md-4 mb-3">
                         <a class="navbar-brand" href="/">
@@ -494,7 +400,7 @@
                             No.9 -11, Labuhan Ratu, Kec. Kedaton, Kota Bandar Lampung, Lampung 35132</p>
                         <p class="mb-1 text-muted"><i class="bi bi-envelope-fill text-warning"></i> teknokrat.ac.id
                         </p>
-                        <p class="mb-1 text-muted"><i class="bi bi-telephone-fill text-warning"></i> 0721 - 702022
+                        <p class="mb-1 text-muted"><i class="bi bi-telephone-fill text-warning"></i> +62 812 3456 7890
                         </p>
                     </div>
 

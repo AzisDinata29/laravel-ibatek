@@ -24,6 +24,9 @@ use App\Http\Controllers\UserMagangController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/about', function () {
+    return view('tentang');
+});
 Route::get('prodi/by-fakultas/{id}', [ProdiController::class, 'byFakultas'])->name('prodi.byFakultas');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
