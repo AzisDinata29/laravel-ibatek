@@ -24,7 +24,8 @@ class UserController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         $query = User::with(['fakultas_detail', 'prodi_detail'])
-            ->where('role', 'user');
+            ->where('role', 'user')
+            ->orderBy('name', 'asc');
 
         $hasFilter = false;
 

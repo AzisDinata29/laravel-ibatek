@@ -13,10 +13,10 @@
                 <div class="card-body">
                     <div class="rounded-4 p-3 mb-4">
                         <form method="GET" action="{{ route('aktifitas-mahasiswa.index') }}" class="row g-3">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-3">
                                 <label class="form-label mb-1">Fakultas</label>
                                 <select name="fakultas_id" id="filterFakultas"
-                                    class="form-select form-select-sm rounded-pill" required>
+                                    class="form-select form-select-sm rounded-pill">
                                     <option value="" selected disabled>-- Pilih Fakultas --</option>
                                     @foreach ($fakultas ?? [] as $f)
                                         <option value="{{ $f->id }}"
@@ -28,15 +28,14 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <label class="form-label mb-1">Program Studi</label>
-                                <select name="prodi_id" id="filterProdi" class="form-select form-select-sm rounded-pill"
-                                    required>
+                                <select name="prodi_id" id="filterProdi" class="form-select form-select-sm rounded-pill">
                                     <option value="" selected disabled>-- Pilih Prodi --</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-3">
                                 <label class="form-label mb-1">Angkatan</label>
                                 @php $current = now()->year; @endphp
-                                <select name="angkatan" class="form-select rounded-pill" required>
+                                <select name="angkatan" class="form-select form-select-sm rounded-pill">
                                     <option value="" {{ request('angkatan') == '' ? 'selected' : '' }}>Pilih Tahun
                                     </option>
                                     @for ($y = $current; $y >= $current - 10; $y--)
@@ -48,6 +47,12 @@
                             </div>
                             <div class="col-12 col-md-1 d-flex align-items-end gap-2">
                                 <button type="submit" class="btn btn-primary w-100 btn-sm rounded-pill">Filter</button>
+                            </div>
+                            <div class="col-12 col-md-1 d-flex align-items-end gap-2">
+                                <a href="{{ route('aktifitas-mahasiswa.create', request()->all()) }}" target="_blank"
+                                    class="btn btn-danger w-100 btn-sm rounded-pill">
+                                    <i class="bi bi-file-earmark-pdf"></i> Cetak PDF
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -63,6 +68,7 @@
                                     <th>Fakultas</th>
                                     <th>Prodi</th>
                                     <th>Angkatan</th>
+                                    <th>Total Durasi</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -85,6 +91,7 @@
                                         <td>{{ $user->fakultas_detail?->name }}</td>
                                         <td>{{ $user->prodi_detail?->name }}</td>
                                         <td>{{ $user->angkatan }}</td>
+                                        <td>{{ $user->total_durasi_diterima ?? 0 }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('aktifitas-mahasiswa.show', $user->id) }}"
                                                 class="btn btn-sm btn-info rounded-pill px-3 d-flex align-items-center justify-content-center gap-1">

@@ -8,10 +8,12 @@ use App\Models\AktifitasMahasiswa;
 use App\Models\User;
 use App\Models\Fakultas;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Database\Eloquent\Builder;
 
 class AktifitasMahasiswaController extends Controller implements HasMiddleware
 {
@@ -25,7 +27,13 @@ class AktifitasMahasiswaController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         $query = User::with(['fakultas_detail', 'prodi_detail'])
+            ->withSum(['aktifitas_mahasiswas as total_durasi_diterima' => function (Builder $q) {
+                $q->where('status', 'Terima')
+                    ->where('tipe_aktifitas_mahasiswa_id', '!=', 1);
+            }], 'durasi')
             ->where('role', 'user');
+
+        $query->orderByRaw('COALESCE(total_durasi_diterima, 0) DESC');
 
         $hasFilter = false;
 
@@ -44,9 +52,7 @@ class AktifitasMahasiswaController extends Controller implements HasMiddleware
             $hasFilter = true;
         }
 
-        $users = ($request->filled('fakultas_id') && $request->filled('prodi_id') && $request->filled('angkatan'))
-            ? $query->get()
-            : collect();
+        $users = $hasFilter ? $query->get() : collect();
 
         $fakultas = Fakultas::orderBy('name')->get(['id', 'name']);
 
@@ -64,18 +70,53 @@ class AktifitasMahasiswaController extends Controller implements HasMiddleware
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $query = User::with(['fakultas_detail', 'prodi_detail'])
+            ->withSum(['aktifitas_mahasiswas as total_durasi_diterima' => function (Builder $q) {
+                $q->where('status', 'Terima')->where('tipe_aktifitas_mahasiswa_id', '!=', 1);
+            }], 'durasi')
+            ->where('role', 'user')
+            ->orderByDesc('total_durasi_diterima');
+
+        if ($request->filled('fakultas_id')) {
+            $query->where('fakultas', $request->fakultas_id);
+        }
+
+        if ($request->filled('prodi_id')) {
+            $query->where('prodi', $request->prodi_id);
+        }
+
+        if ($request->filled('angkatan')) {
+            $query->where('angkatan', $request->angkatan);
+        }
+
+        $users = $query->get();
+
+        // load view khusus PDF
+        $logoPath = public_path('/logo_teknokrat.png');
+        $logoData = base64_encode(File::get($logoPath));
+        $logoType = File::mimeType($logoPath);
+        $logoBase64 = 'data:' . $logoType . ';base64,' . $logoData;
+
+        $logoIbatekPath = public_path('/ibtk.png');
+        $logoIbatekData = base64_encode(File::get($logoIbatekPath));
+        $logoIbatekType = File::mimeType($logoIbatekPath);
+        $logoIbatekBase64 = 'data:' . $logoIbatekType . ';base64,' . $logoIbatekData;
+
+        $pdf = Pdf::loadView('master.aktifitas-mahasiswa.cetak-angkatan', [
+            'users' => $users,
+            'logo' => $logoBase64,
+            'logo_ibatek' => $logoIbatekBase64,
+        ])->setPaper('A4', 'portrait');
+
+        return $pdf->stream('laporan-aktifitas-mahasiswa.pdf');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
@@ -107,7 +148,11 @@ class AktifitasMahasiswaController extends Controller implements HasMiddleware
             $items = $rows->where('semester', (string) $s)->values();
 
             $totalDurasi = $items->sum(function ($r) {
-                return (int) ($r->durasi ?? 0);
+                if ($r->tipe_aktifitas_mahasiswa_id != 1) {
+                    return (int) ($r->durasi ?? 0);
+                } else {
+                    return 0;
+                }
             });
 
             return [$s => [
@@ -162,7 +207,11 @@ class AktifitasMahasiswaController extends Controller implements HasMiddleware
                 ->orderBy('tanggal_mulai')
                 ->get();
 
-            $totalDurasi = (int) $rows->sum('durasi');
+            $totalDurasi = (int) $rows
+                ->where('tipe_aktifitas_mahasiswa_id', '!=', 1)
+                ->sum(function ($r) {
+                    return (int) ($r->durasi ?? 0);
+                });
 
             $items = $rows->map(function ($r) {
                 $tglMulai   = Carbon::parse($r->tanggal_mulai)->format('d/m/Y');
@@ -172,14 +221,13 @@ class AktifitasMahasiswaController extends Controller implements HasMiddleware
                     'jenis' => $r->label . ' - ' . $r->label_detail,
                     'tipe'  => $r->tipe->name ?? '-',
                     'tgl'   => ($r->tanggal_mulai === $r->tanggal_selesai) ? $tglMulai : $tglMulai . ' - ' . $tglSelesai,
-                    'waktu' => $r->durasi ? $r->durasi . ' jam' : '',
+                    'waktu' => $r->tipe_aktifitas_mahasiswa_id === 1
+                        ? '' . ($r->durasi ? $r->durasi . 'Periode' : '')
+                        : ($r->durasi ? $r->durasi . ' jam' : ''),
                     'ket'   => $r->keterangan ?: '',
                 ];
-            })->values();
+            })->values()->toArray();
 
-            for ($i = $items->count(); $i < 35; $i++) {
-                $items->push(['tipe' => '', 'jenis' => '', 'tgl' => '', 'waktu' => '', 'ket' => '']);
-            }
 
             $semesters[] = [
                 'no'         => $this->toRoman($s),
@@ -211,7 +259,7 @@ class AktifitasMahasiswaController extends Controller implements HasMiddleware
             return 'Baik';
         }
         if ($totalJam >= 50) {
-            return 'Kurang Baik';
+            return 'Cukup';
         }
         return 'Kurang / Tidak Aktif Kegiatan';
     }

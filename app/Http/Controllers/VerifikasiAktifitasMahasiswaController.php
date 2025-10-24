@@ -121,6 +121,8 @@ class VerifikasiAktifitasMahasiswaController extends Controller implements HasMi
                 'keterangan' => $data['keterangan'] ?? null,
                 'status' => $data['status'],
                 'keterangan_validasi' => $data['keterangan_validasi'] ?? null,
+                'dosen_pembimbing' => $request->dosen_pembimbing ?? null,
+                'mitra' => $request->mitra ?? null,
                 'validasi_user_id' => Auth::id(),
             ]);
 

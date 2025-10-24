@@ -133,7 +133,7 @@
                                         </td>
                                         <td>
                                             @if ($row->file)
-                                                <a href="{{ asset('storage/' . $row->file) }}" target="_blank"
+                                                <a href="{{ $row->file }}" target="_blank"
                                                     class="btn btn-sm btn-outline-success">
                                                     Lihat File
                                                 </a>

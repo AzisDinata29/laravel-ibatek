@@ -117,7 +117,7 @@
                             $badgeClass = 'bg-secondary';
                             if ($data['nilai'] === 'Baik') {
                                 $badgeClass = 'bg-success';
-                            } elseif ($data['nilai'] === 'Kurang Baik') {
+                            } elseif ($data['nilai'] === 'Cukup') {
                                 $badgeClass = 'bg-warning text-dark';
                             }
                         @endphp
@@ -151,7 +151,7 @@
                                                 <th>Tipe</th>
                                                 <th>Label</th>
                                                 <th>Semester</th>
-                                                <th>Durasi</th>
+                                                <th>Periode/Durasi</th>
                                                 <th>Tanggal</th>
                                                 <th>Keterangan</th>
                                             </tr>
@@ -164,12 +164,11 @@
                                                     <td>{{ $a->label }}</td>
                                                     <td>{{ $a->semester }}</td>
                                                     <td>
-                                                        @php
-                                                            $menit = (int) ($a->durasi ?? 0);
-                                                            $jam = intdiv($menit, 60);
-                                                            $sis = $menit % 60;
-                                                        @endphp
-                                                        {{ $jam }} jam{{ $sis ? " {$sis} menit" : '' }}
+                                                        @if ($a->tipe_aktifitas_mahasiswa_id === 1)
+                                                            {{ $a->durasi }}
+                                                        @else
+                                                            {{ $a->durasi }} Jam
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         {{ \Carbon\Carbon::parse($a->tanggal_mulai)->format('d M Y') }}

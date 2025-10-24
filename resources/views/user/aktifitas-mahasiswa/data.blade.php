@@ -117,7 +117,7 @@
                                         </td>
                                         <td>
                                             @if ($row->file)
-                                                <a href="{{ asset('storage/' . $row->file) }}" target="_blank"
+                                                <a href="{{ $row->file }}" target="_blank"
                                                     class="btn btn-sm btn-outline-success">
                                                     Lihat File
                                                 </a>
@@ -127,14 +127,15 @@
                                         </td>
                                         <td>
                                             <a href="#" class="btn btn-sm btn-info btn-detail" data-bs-toggle="modal"
-                                                data-bs-target="#detailModal" data-label="{{ $row->label }}"
-                                                data-tipe="{{ $row->tipe?->name }}" data-status="{{ $row->status }}"
-                                                data-label="{{ $row->label }}"
+                                                data-bs-target="#detailModal" data-tipe="{{ $row->tipe?->name }}"
+                                                data-status="{{ $row->status }}" data-label="{{ $row->label }}"
                                                 data-label-detail="{{ $row->label_detail }}"
+                                                data-id-tipe="{{ $row->tipe_aktifitas_mahasiswa_id }}"
+                                                data-dosen="{{ $row->dosen_pembimbing }}" data-mitra="{{ $row->mitra }}"
                                                 data-keterangan="{{ $row->keterangan }}"
                                                 data-semester="{{ $row->semester }}" data-durasi="{{ $row->durasi }}"
                                                 data-periode="{{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d M Y') }} - {{ \Carbon\Carbon::parse($row->tanggal_selesai)->format('d M Y') }}"
-                                                data-file="{{ $row->file ? asset('storage/' . $row->file) : '' }}"
+                                                data-file="{{ $row->file }}"
                                                 data-label-title="{{ $row->tipe?->label ?? 'Judul Kegiatan' }}"
                                                 data-detail-title="{{ $row->tipe?->label_detail ?? 'Detail Aktivitas' }}">
                                                 Detail
@@ -182,6 +183,7 @@
                 </div>
 
                 <div class="modal-body p-4 bg-light">
+                    <!-- Informasi Umum -->
                     <div class="mb-4">
                         <h6
                             class="fw-bold text-uppercase text-primary mb-3 d-flex align-items-center gap-2 border-bottom pb-2">
@@ -202,7 +204,10 @@
                             </div>
                         </div>
                     </div>
+
                     <hr>
+
+                    <!-- Detail Aktivitas -->
                     <div class="mb-4">
                         <h6
                             class="fw-bold text-uppercase text-primary mb-3 d-flex align-items-center gap-2 border-bottom pb-2">
@@ -217,9 +222,22 @@
                                 <p class="text-muted mb-1 small">Keterangan</p>
                                 <p id="modalKeterangan" class="fst-italic text-muted">-</p>
                             </div>
+
+                            <!-- Dosen & Mitra: Hanya tampil jika idTipe == 4 -->
+                            <div class="col-md-6 d-none" id="modalDosenRow">
+                                <p class="text-muted mb-1 small">Dosen Pembimbing</p>
+                                <p id="modalDosen" class="fw-semibold text-dark">-</p>
+                            </div>
+                            <div class="col-md-6 d-none" id="modalMitraRow">
+                                <p class="text-muted mb-1 small">Mitra / Instansi</p>
+                                <p id="modalMitra" class="fw-semibold text-dark">-</p>
+                            </div>
                         </div>
                     </div>
+
                     <hr>
+
+                    <!-- Periode & Tambahan -->
                     <div class="mb-3">
                         <h6
                             class="fw-bold text-uppercase text-primary mb-3 d-flex align-items-center gap-2 border-bottom pb-2">
@@ -262,9 +280,6 @@
             </div>
         </div>
     </div>
-
-
-
     @push('scripts')
         <script>
             document.addEventListener("DOMContentLoaded", () => {
@@ -279,6 +294,9 @@
                         const semester = this.dataset.semester || '-';
                         const durasi = this.dataset.durasi || '-';
                         const periode = this.dataset.periode || '-';
+                        const idTipe = this.dataset.idTipe || '-';
+                        const mitra = this.dataset.mitra || '-';
+                        const dosen = this.dataset.dosen || '-';
                         const file = this.dataset.file;
                         const labelTitle = this.dataset.labelTitle || 'Judul Kegiatan';
                         const detailTitle = this.dataset.detailTitle || 'Detail Aktivitas';
@@ -291,6 +309,9 @@
                         document.getElementById('modalSemester').textContent = semester;
                         document.getElementById('modalDurasi').textContent = durasi;
                         document.getElementById('modalPeriode').textContent = periode;
+
+                        document.getElementById('modalMitra').textContent = mitra;
+                        document.getElementById('modalDosen').textContent = dosen;
 
                         // Ganti judul field sesuai tipe
                         document.getElementById('modalLabelTitle').textContent = labelTitle;
@@ -314,6 +335,17 @@
                         } else {
                             fileBtn.classList.add('d-none');
                             noFile.classList.remove('d-none');
+                        }
+
+                        // --- Tampilkan Dosen & Mitra hanya jika idTipe == 4 ---
+                        const dosenRow = document.getElementById('modalDosenRow');
+                        const mitraRow = document.getElementById('modalMitraRow');
+                        if (idTipe == 4) {
+                            dosenRow.classList.remove('d-none');
+                            mitraRow.classList.remove('d-none');
+                        } else {
+                            dosenRow.classList.add('d-none');
+                            mitraRow.classList.add('d-none');
                         }
                     });
                 });

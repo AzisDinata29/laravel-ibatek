@@ -67,14 +67,13 @@ class UserAktifitasMahasiswaController extends Controller implements HasMiddlewa
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'semester'        => 'required|in:1,2,3,4,5,6,7,8',
             'durasi'          => 'required|string|max:50',
-            'file'            => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
+            'file'            => 'required|string|max:2000',
             'keterangan'      => 'required|string|max:2000',
+            'dosen_pembimbing'      => 'nullable|string|max:2000',
+            'mitra'      => 'nullable|string|max:2000',
         ]);
 
         try {
-            $path = $request->hasFile('file')
-                ? $request->file('file')->store('aktifitas', 'public')
-                : null;
 
             AktifitasMahasiswa::create([
                 'user_id'                     => Auth::id(),
@@ -85,8 +84,10 @@ class UserAktifitasMahasiswaController extends Controller implements HasMiddlewa
                 'tanggal_selesai'             => $data['tanggal_selesai'],
                 'semester'                    => (string) $data['semester'],
                 'durasi'                      => $data['durasi'],
-                'file'                        => $path,
+                'file'                        => $data['file'],
                 'keterangan'                  => $data['keterangan'] ?? null,
+                'dosen_pembimbing'                  => $data['dosen_pembimbing'] ?? null,
+                'mitra'                  => $data['mitra'] ?? null,
                 'validasi_user_id'            => null,
             ]);
 
@@ -133,20 +134,11 @@ class UserAktifitasMahasiswaController extends Controller implements HasMiddlewa
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'semester'        => 'required|in:1,2,3,4,5,6,7,8',
             'durasi'          => 'required|string|max:50',
-            'file'            => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
+            'file'            => 'nullable|string|max:2000',
             'keterangan'      => 'required|string|max:2000',
         ]);
 
         try {
-            if ($request->hasFile('file')) {
-                if ($aktifitas->file && \Storage::disk('public')->exists($aktifitas->file)) {
-                    \Storage::disk('public')->delete($aktifitas->file);
-                }
-                $data['file'] = $request->file('file')->store('aktifitas', 'public');
-            } else {
-                $data['file'] = $aktifitas->file;
-            }
-
             $aktifitas->update([
                 'label'           => $data['label'],
                 'label_detail'    => $data['label_detail'],
@@ -154,6 +146,8 @@ class UserAktifitasMahasiswaController extends Controller implements HasMiddlewa
                 'tanggal_selesai' => $data['tanggal_selesai'],
                 'semester'        => (string) $data['semester'],
                 'durasi'          => $data['durasi'],
+                'dosen_pembimbing' => $request->dosen_pembimbing,
+                'mitra'          => $request->mitra,
                 'file'            => $data['file'],
                 'status'            => 'Menunggu Validasi',
                 'keterangan'      => $data['keterangan'] ?? null,

@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Buku Aktivitas Mahasiswa</title>
+
     <style>
         @page {
             margin: 24px 28px;
@@ -22,10 +23,6 @@
         .title {
             text-align: center;
             margin-bottom: 16px;
-        }
-
-        .page-break {
-            page-break-after: always;
         }
 
         table {
@@ -63,20 +60,8 @@
             text-align: center;
         }
 
-        .paraf {
-            width: 12%;
-        }
-
         .ket {
             width: 18%;
-        }
-
-        .row-break {
-            page-break-after: always;
-        }
-
-        .semester-break {
-            page-break-after: always;
         }
 
         .signature {
@@ -87,11 +72,10 @@
         .signature td {
             border: none;
         }
-    </style>
-    <style>
+
+        /* ===== Kartu Profil ===== */
         .profile-card {
             position: relative;
-            /* agar .photo-box absolute mengacu ke kartu */
             border: 1px solid #b9bec5;
             border-radius: 6px;
             padding: 12px;
@@ -103,7 +87,6 @@
 
         .profile-rowwrap {
             padding-right: 28mm;
-            /* ruang untuk foto (20mm) + margin */
         }
 
         .profile-row {
@@ -122,7 +105,6 @@
         .profile-row .col-label {
             width: 36%;
             color: #606770;
-            /* muted */
             font-weight: 600;
         }
 
@@ -134,7 +116,6 @@
 
         .profile-row .col-val {
             width: 58%;
-            /* sisa lebar */
             border-bottom: 1px dotted #999;
             padding-bottom: 6px;
             min-height: 5mm;
@@ -147,7 +128,6 @@
             top: 0;
             width: 20mm;
             height: 30mm;
-            /* 2x3 cm */
             border: 1px solid #666;
             background: #fff;
             text-align: center;
@@ -192,65 +172,87 @@
             width: auto;
             border-bottom: 1px dotted #999;
         }
-    </style>
 
+        /* ===== Layout per halaman semester (ramah Dompdf) ===== */
+        .sem-page {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            height: 284mm;
+            /* A4 (297mm) - perkiraan margin vertikal total ≈ 12.7mm */
+            page-break-after: always;
+        }
+
+        .sem-page.last {
+            page-break-after: auto;
+        }
+
+        /* hindari blank page di akhir dokumen */
+
+        .sem-body {
+            display: table-row;
+            height: auto;
+        }
+
+        .sem-footer {
+            display: table-row;
+            height: 42mm;
+        }
+
+        /* tinggi area tanda tangan, sesuaikan 38–50mm */
+
+        @media print {
+            .sem-page {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h3 style="text-align:center;margin:2px 0 10px;">
-        PROFIL MAHASISWA
-    </h3>
+
+    <h3 style="text-align:center;margin:2px 0 10px;">PROFIL MAHASISWA</h3>
     <div class="profile-card">
         @php
             $jkRaw = strtolower($user->jenis_kelamin ?? '');
             $isMale = in_array($jkRaw, ['laki-laki', 'l', 'male'], true);
             $isFemale = in_array($jkRaw, ['perempuan', 'p', 'female'], true);
-
             $fotoPath = !empty($user->profile_photo) ? storage_path('app/public/' . $user->profile_photo) : null;
-
             $val = fn($v) => $v !== null && $v !== '' ? e($v) : '-';
         @endphp
 
         <div class="profile-rowwrap">
             <div class="profile-row">
-                <span class="col-label">Nama</span>
-                <span class="col-colon">:</span>
+                <span class="col-label">Nama</span><span class="col-colon">:</span>
                 <span class="col-val">{{ $val($user->name ?? null) }}</span>
             </div>
             <div class="profile-row">
-                <span class="col-label">NPM</span>
-                <span class="col-colon">:</span>
+                <span class="col-label">NPM</span><span class="col-colon">:</span>
                 <span class="col-val">{{ $val($user->npm ?? null) }}</span>
             </div>
             <div class="profile-row">
-                <span class="col-label">Program Studi</span>
-                <span class="col-colon">:</span>
+                <span class="col-label">Program Studi</span><span class="col-colon">:</span>
                 <span class="col-val">{{ $val(optional($user->prodi_detail)->name ?? null) }}</span>
             </div>
             <div class="profile-row">
-                <span class="col-label">Jenis Kelamin</span>
-                <span class="col-colon">:</span>
+                <span class="col-label">Jenis Kelamin</span><span class="col-colon">:</span>
                 <span class="col-val">
                     <span style="{{ $isMale ? 'font-weight:bold' : '' }}">Laki-Laki</span> /
                     <span style="{{ $isFemale ? 'font-weight:bold' : '' }}">Perempuan</span>
                 </span>
             </div>
             <div class="profile-row">
-                <span class="col-label">No Handphone / Whatsapp</span>
-                <span class="col-colon">:</span>
+                <span class="col-label">No Handphone / Whatsapp</span><span class="col-colon">:</span>
                 <span class="col-val">{{ $val($user->nomor_telpon ?? null) }}</span>
             </div>
             <div class="profile-row">
-                <span class="col-label">E-mail</span>
-                <span class="col-colon">:</span>
+                <span class="col-label">E-mail</span><span class="col-colon">:</span>
                 <span class="col-val">{{ $val($user->email ?? null) }}</span>
             </div>
             <div class="profile-row">
-                <span class="col-label">Angkatan</span>
-                <span class="col-colon">:</span>
+                <span class="col-label">Angkatan</span><span class="col-colon">:</span>
                 <span class="col-val">{{ $val($user->angkatan ?? null) }}</span>
             </div>
-
         </div>
 
         <div class="photo-box">
@@ -260,66 +262,117 @@
         </div>
     </div>
 
-    <div class="page-break"></div>
+    <div style="page-break-after: always;"></div>
+
+    @php
+        // Atur kapasitas baris aman per halaman (tanpa baris kosong).
+        $rowsPerPage = 20;
+    @endphp
+
     @foreach ($semesters as $sIndex => $sem)
-        <h3 style="text-align:center;margin:2px 0 10px;">
-            Semester {{ $sem['no'] }} ({{ $sem['judul'] }})
-        </h3>
+        @php
+            // Pastikan items berupa array agar aman untuk array_chunk()
+            $itemsArr = is_array($sem['items'])
+                ? $sem['items']
+                : (is_object($sem['items']) && method_exists($sem['items'], 'toArray')
+                    ? $sem['items']->toArray()
+                    : (array) $sem['items']);
 
-        <table>
-            <thead>
-                <tr>
-                    <th class="no">No.</th>
-                    <th class="tipe">Tipe</th>
-                    <th class="jenis">Jenis Kegiatan</th>
-                    <th class="tgl">Tanggal</th>
-                    <th class="wkt">Waktu</th>
-                    <th class="ket">Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($sem['items'] as $i => $row)
-                    <tr class="{{ $i == 19 ? 'row-break' : '' }}">
-                        <td class="no">{{ $i + 1 }}.</td>
-                        <td class="tipe">{{ $row['tipe'] }}</td>
-                        <td class="jenis">{{ $row['jenis'] }}</td>
-                        <td class="tgl">{{ $row['tgl'] }}</td>
-                        <td class="wkt">{{ $row['waktu'] }}</td>
-                        <td class="ket">{{ $row['ket'] }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <table class="summary">
-            <tr>
-                <td class="label">Total Durasi Semester {{ $sem['no'] }}</td>
-                <td class="colon">:</td>
-                <td class="val">{{ $sem['total'] }} jam</td>
-            </tr>
-            <tr>
-                <td class="label">Kesimpulan</td>
-                <td class="colon">:</td>
-                <td class="val">{{ $sem['kesimpulan'] }}</td>
-            </tr>
-        </table>
-        <table class="signature">
-            <tr>
-                <td style="width:60%">
-                    <br>
-                    Menyetujui,<br>Wakil Rektor III<br><br><br><br>
-                    (........................................)
-                </td>
-                <td style="text-align:left;">
-                    Bandar Lampung, ................ 20....<br>
-                    Mengetahui,<br>Ketua Program Studi / Pengelola Beasiswa UTI<br><br><br><br>
-                    (........................................)
-                </td>
-            </tr>
-        </table>
+            $chunks = array_chunk($itemsArr, $rowsPerPage);
+            if (empty($chunks)) {
+                $chunks = [[]];
+            }
 
-        @if ($sIndex < count($semesters) - 1)
-            <div class="semester-break"></div>
-        @endif
+            // Penanda halaman terakhir di seluruh dokumen (untuk hilangkan page break terakhir)
+            $isSemesterTerakhir = $sIndex === count($semesters) - 1;
+        @endphp
+
+        @foreach ($chunks as $pageIndex => $items)
+            @php
+                $isHalamanTerakhirSemester = $pageIndex === count($chunks) - 1;
+                $isHalamanTerakhirDokumen = $isSemesterTerakhir && $isHalamanTerakhirSemester;
+                $pageClass = $isHalamanTerakhirDokumen ? 'sem-page last' : 'sem-page';
+            @endphp
+
+            <div class="{{ $pageClass }}">
+                <!-- ISI HALAMAN -->
+                <div class="sem-body">
+                    <h3 style="text-align:center;margin:2px 0 10px;">
+                        Semester {{ $sem['no'] }} ({{ $sem['judul'] }})
+                        @if (count($chunks) > 1)
+                            – Hal. {{ $pageIndex + 1 }} / {{ count($chunks) }}
+                        @endif
+                    </h3>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="no">No.</th>
+                                <th class="tipe">Tipe</th>
+                                <th class="jenis">Jenis Kegiatan</th>
+                                <th class="tgl">Tanggal</th>
+                                <th class="wkt">Waktu</th>
+                                <th class="ket">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($items as $i => $row)
+                                <tr>
+                                    <td class="no">{{ $pageIndex * $rowsPerPage + $i + 1 }}.</td>
+                                    <td class="tipe">{{ $row['tipe'] ?? '' }}</td>
+                                    <td class="jenis">{{ $row['jenis'] ?? '' }}</td>
+                                    <td class="tgl">{{ $row['tgl'] ?? '' }}</td>
+                                    <td class="wkt">
+                                        {{ $row['waktu'] ?? '' }}
+                                    </td>
+                                    <td class="ket">{{ $row['ket'] ?? '' }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:12px;">
+                                        Tidak ada data pada halaman ini.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+
+                    @if ($isHalamanTerakhirSemester)
+                        <!-- Ringkasan hanya di halaman terakhir semester -->
+                        <table class="summary">
+                            <tr>
+                                <td class="label">Total Durasi Semester {{ $sem['no'] }}</td>
+                                <td class="colon">:</td>
+                                <td class="val">{{ $sem['total'] }} jam</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Kesimpulan</td>
+                                <td class="colon">:</td>
+                                <td class="val">{{ $sem['kesimpulan'] }}</td>
+                            </tr>
+                        </table>
+                    @endif
+                </div>
+
+                <!-- FOOTER (TTD) SELALU DI BAWAH -->
+                <div class="sem-footer">
+                    <table class="signature">
+                        <tr>
+                            <td style="width:60%;">
+                                <br>
+                                Menyetujui,<br>Wakil Rektor III<br><br><br><br>
+                                (........................................)
+                            </td>
+                            <td style="text-align:left;">
+                                Bandar Lampung, ................ 20....<br>
+                                Mengetahui,<br>Ketua Program Studi / Pengelola Beasiswa UTI<br><br><br><br>
+                                (........................................)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        @endforeach
     @endforeach
 
 </body>

@@ -281,15 +281,18 @@
 
 <body>
     <main class="main" id="top">
-        <!-- Navbar -->
         <nav class="navbar navbar-light sticky-top">
             <div class="container py-2 d-flex justify-content-between align-items-center">
                 <a class="navbar-brand" href="/login">
                     <img src="{{ asset('assets-new/images/logo/ibatek.png') }}" alt="IBATEK" height="50" />
                 </a>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-custom rounded-pill px-4"
+                    <button class="btn btn-custom rounded-pill px-4 py-1"
                         onclick="window.location.href='/login'">Login</button>
+                    <button class="btn btn-custom rounded-pill px-4 py-1"
+                        onclick="window.location.href='/register'">Register</button>
+                    <button class="btn btn-danger rounded-pill px-4 py-1"
+                        onclick="window.location.href='/about'">Tentang</button>
                 </div>
             </div>
             </div>

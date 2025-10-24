@@ -24,8 +24,18 @@
         @include('layouts.sidebar')
         <div id="main">
             @include('layouts.header')
-            <div class="page-heading">
-                <h3>@yield('page-heading', 'Profile Statistics')</h3>
+            <div class="page-heading d-flex justify-content-between align-items-center">
+                <div class="text-end">
+                    <h3 class="mb-0">@yield('page-heading', 'Profile Statistics')</h3>
+                </div>
+                <a href="{{ route('profile.edit') }}" class="d-flex align-items-center gap-3 ">
+                    <img src="{{ asset('storage/' . Auth::user()->profile_photo ?? 'default.png') }}" alt="User Photo"
+                        class="rounded-circle" width="48" height="48">
+                    <div class="user-info bg-white rounded p-2">
+                        <h5 class="mb-0 fw-semibold">{{ Auth::user()->name ?? 'Nama Pengguna' }}</h5>
+                        <small class="text-muted">{{ Auth::user()->email ?? 'user@example.com' }}</small>
+                    </div>
+                </a>
             </div>
             <div class="page-content">
                 @yield('content')

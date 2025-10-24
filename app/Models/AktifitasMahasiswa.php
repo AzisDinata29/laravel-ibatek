@@ -13,6 +13,8 @@ class AktifitasMahasiswa extends Model
         'label_detail',
         'tanggal_mulai',
         'tanggal_selesai',
+        'dosen_pembimbing',
+        'mitra',
         'semester',
         'durasi',
         'file',

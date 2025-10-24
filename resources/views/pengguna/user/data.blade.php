@@ -304,9 +304,21 @@
             $('#fakultas').on('change', function() {
                 loadProdiOptions($(this).val(), $('#prodi'));
             });
-            $('.edit-btn').on('click', function() {
+
+
+            $('#editFakultas').on('change', function() {
+                loadProdiOptions($(this).val(), $('#editProdiId'));
+            });
+
+            $(document).on('click', '.edit-btn', function(e) {
+                e.preventDefault();
+
                 const userId = $(this).data('id');
-                $('#editUserModal').modal('show');
+
+                // Tampilkan modal via Bootstrap 5 API (lebih stabil daripada $('#...').modal('show'))
+                const modalEl = document.getElementById('editUserModal');
+                const editUserModal = new bootstrap.Modal(modalEl);
+                editUserModal.show();
 
                 $.get("{{ url('users') }}/" + userId, function(u) {
                     $('#editUserId').val(u.id);
@@ -320,41 +332,40 @@
                     $('#editFakultas').val(u.fakultas);
                     loadProdiOptions(u.fakultas, $('#editProdiId'), u.prodi);
                 }).fail(function() {
-                    $('#editUserModal').modal('hide');
+                    editUserModal.hide();
                     Swal.fire('Error!', 'Failed to load user data.', 'error');
                 });
             });
 
-            $('#editFakultas').on('change', function() {
-                loadProdiOptions($(this).val(), $('#editProdiId'));
-            });
-
-            $('#editUserForm').on('submit', function(e) {
+            $(document).on('submit', '#editUserForm', function(e) {
                 e.preventDefault();
+
                 var userId = $('#editUserId').val();
                 var formData = new FormData(this);
+
                 if ($('#editPassword').val() === '') {
                     formData.delete('password');
                     formData.delete('password_confirmation');
                 }
+
                 formData.append('_method', 'PUT');
                 formData.append('_token', '{{ csrf_token() }}');
+
                 $.ajax({
                     url: '{{ url('users') }}/' + userId,
                     method: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
-                        $('#editUserModal').modal('hide');
+                    success: function() {
+                        const modalEl = document.getElementById('editUserModal');
+                        bootstrap.Modal.getInstance(modalEl)?.hide();
                         Swal.fire({
                             title: 'Success!',
                             text: 'User updated successfully.',
                             icon: 'success',
                             confirmButtonText: 'OK'
-                        }).then(() => {
-                            location.reload();
-                        });
+                        }).then(() => location.reload());
                     },
                     error: function(xhr) {
                         let errors = xhr.responseJSON?.errors;

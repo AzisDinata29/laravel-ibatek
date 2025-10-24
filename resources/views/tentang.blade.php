@@ -268,8 +268,12 @@
                     <img src="{{ asset('assets-new/images/logo/ibatek.png') }}" alt="IBATEK" height="50" />
                 </a>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-custom rounded-pill px-4"
+                    <button class="btn btn-custom rounded-pill px-4 py-1"
                         onclick="window.location.href='/login'">Login</button>
+                    <button class="btn btn-custom rounded-pill px-4 py-1"
+                        onclick="window.location.href='/register'">Register</button>
+                    <button class="btn btn-danger rounded-pill px-4 py-1"
+                        onclick="window.location.href='/about'">Tentang</button>
                 </div>
             </div>
             </div>
@@ -359,7 +363,8 @@
                         <img src="{{ asset('assets-new/images/logo/UTI.png') }}" alt="Logo UTI" class="img-fluid">
                     </div>
                     <div class="col-md-3 col-sm-6 mb-4 logo-item">
-                        <img src="{{ asset('assets-new/images/logo/ibtk.png') }}" alt="Logo IBATEK" class="img-fluid">
+                        <img src="{{ asset('assets-new/images/logo/ibtk.png') }}" alt="Logo IBATEK"
+                            class="img-fluid">
                     </div>
                 </div>
             </div>

@@ -24,13 +24,6 @@
                 </li>
                 @include('layouts.side-bar-admin')
                 @include('layouts.side-bar-user')
-                <li class="sidebar-title">Pages</li>
-                <li class="sidebar-item {{ Route::currentRouteName() == 'profile.edit' ? 'active' : '' }}">
-                    <a href="{{ route('profile.edit') }}" class='sidebar-link'>
-                        <i class="bi bi-person-fill"></i>
-                        <span>Profile</span>
-                    </a>
-                </li>
 
                 <li class="sidebar-item">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST">

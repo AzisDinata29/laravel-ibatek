@@ -80,6 +80,28 @@
                 <small class="text-danger">{{ $message }}</small>
             @enderror
         </div>
+        @if ($aktifitas->tipe_aktifitas_mahasiswa_id == 4)
+            <div class="col-md-6" id="dosen_pembimbing">
+                <label class="form-label">
+                    Dosen Pembimbing
+                </label>
+                <input type="text" class="form-control need-tipe" id="dosen_pembimbing" name="dosen_pembimbing"
+                    placeholder="" value="{{ old('dosen_pembimbing', $aktifitas->dosen_pembimbing) }}">
+                @error('dosen_pembimbing')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="col-md-6" id="mitra">
+                <label class="form-label">
+                    Mitra
+                </label>
+                <input type="text" class="form-control need-tipe" id="mitra" name="mitra" placeholder=""
+                    value="{{ old('mitra', $aktifitas->mitra) }}">
+                @error('mitra')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        @endif
         <div class="col-md-4">
             <label for="tanggal_mulai" class="form-label">Tanggal Mulai <span class="text-danger">*</span></label>
             <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai"
@@ -89,7 +111,8 @@
             @enderror
         </div>
         <div class="col-md-4">
-            <label for="tanggal_selesai" class="form-label">Tanggal Selesai <span class="text-danger">*</span></label>
+            <label for="tanggal_selesai" class="form-label">Tanggal Selesai <span
+                    class="text-danger">*</span></label>
             <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai"
                 value="{{ old('tanggal_selesai', $aktifitas->tanggal_selesai) }}" required>
             @error('tanggal_selesai')
@@ -109,7 +132,7 @@
             <label for="file" class="form-label">File Pendukung </label>
             @if ($aktifitas->file)
                 <div class="mt-2">
-                    📎 <a href="{{ asset('storage/' . $aktifitas->file) }}" target="_blank">Lihat
+                    📎 <a href="{{ $aktifitas->file }}" target="_blank">Lihat
                         File Saat Ini</a>
                 </div>
             @else

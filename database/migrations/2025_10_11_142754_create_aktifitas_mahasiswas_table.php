@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('semester');
             $table->string('durasi')->nullable();
             $table->string('file')->nullable();
+            $table->string('dosen_pembimbing')->nullable();
+            $table->string('mitra')->nullable();
             $table->string('keterangan')->nullable();
             $table->enum('status', ['Terima', 'Tidak Diterima', 'Menunggu Validasi'])->default("Menunggu Validasi");
             $table->unsignedBigInteger('validasi_user_id')->nullable();

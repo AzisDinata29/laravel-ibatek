@@ -99,7 +99,11 @@ class UserPrintAktifitasMahasiswaController extends Controller implements HasMid
                 ->orderBy('tanggal_mulai')
                 ->get();
 
-            $totalDurasi = (int) $rows->sum('durasi');
+            $totalDurasi = (int) $rows
+                ->where('tipe_aktifitas_mahasiswa_id', '!=', 1)
+                ->sum(function ($r) {
+                    return (int) ($r->durasi ?? 0);
+                });
 
             $items = $rows->map(function ($r) {
                 $tglMulai   = Carbon::parse($r->tanggal_mulai)->format('d/m/Y');
@@ -109,14 +113,13 @@ class UserPrintAktifitasMahasiswaController extends Controller implements HasMid
                     'jenis' => $r->label . ' - ' . $r->label_detail,
                     'tipe'  => $r->tipe->name ?? '-',
                     'tgl'   => ($r->tanggal_mulai === $r->tanggal_selesai) ? $tglMulai : $tglMulai . ' - ' . $tglSelesai,
-                    'waktu' => $r->durasi ? $r->durasi . ' jam' : '',
+                    'waktu' => $r->tipe_aktifitas_mahasiswa_id === 1
+                        ? '' . ($r->durasi ? $r->durasi . 'Periode' : '')
+                        : ($r->durasi ? $r->durasi . ' jam' : ''),
                     'ket'   => $r->keterangan ?: '',
                 ];
-            })->values();
+            })->values()->toArray();
 
-            for ($i = $items->count(); $i < 35; $i++) {
-                $items->push(['tipe' => '', 'jenis' => '', 'tgl' => '', 'waktu' => '', 'ket' => '']);
-            }
 
             $semesters[] = [
                 'no'         => $this->toRoman($s),
